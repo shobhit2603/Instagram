@@ -1,0 +1,250 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+
+const Register = () => {
+  const { handleRegister } = useAuth();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await handleRegister(formData);
+      navigate("/profile");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 selection:bg-purple-500/30">
+      <div className="flex flex-col md:flex-row bg-neutral-900 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden max-w-4xl w-full border border-neutral-800">
+        <div className="md:w-1/2 p-10 lg:p-12 bg-neutral-950/50 text-white flex-col justify-between relative overflow-hidden hidden md:flex border-r border-neutral-800">
+          <div className="absolute top-[-20%] right-[-10%] w-72 h-72 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
+          <div className="absolute bottom-[-10%] left-[-20%] w-80 h-80 rounded-full bg-pink-500 opacity-20 blur-3xl"></div>
+
+          <div className="z-10">
+            <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">
+              Instagram
+            </h1>
+            <p className="text-neutral-400 text-lg font-medium">
+              Join the visual world.
+            </p>
+          </div>
+
+          <div className="z-10 mt-auto">
+            <h2 className="text-3xl lg:text-4xl  mb-4 leading-tight">
+              Capture and share <br /> moments that matter.
+            </h2>
+            <p className="text-neutral-400 font-medium text-lg">
+              Experience a fresh new take on social discovery.
+            </p>
+          </div>
+        </div>
+
+        <div className="md:w-1/2 p-6 lg:p-8 flex flex-col justify-center bg-neutral-900 relative">
+          <div className="max-w-md mx-auto w-full">
+            <div className="md:hidden text-center mb-4">
+              <h1 className="text-4xl font-extrabold text-white mb-2">
+                Instagram
+              </h1>
+              <p className="text-neutral-400 text-sm">
+                Sign up to see photos and videos from your friends.
+              </p>
+            </div>
+
+            <h3 className="text-xl text-white mb-4 hidden md:block">
+              Create an account
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Username Input */}
+              <div className="relative">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Username"
+                  className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
+                  required
+                />
+                <label
+                  htmlFor="username"
+                  className="absolute left-4 top-2 text-xs font-semibold text-neutral-500 transition-all pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:font-normal peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-purple-400"
+                >
+                  Username
+                </label>
+              </div>
+
+              {/* Full Name Input */}
+              <div className="relative">
+                <input
+                  type="text"
+                  name="fullname"
+                  id="fullname"
+                  value={formData.fullname}
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                  className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
+                  required
+                />
+                <label
+                  htmlFor="fullname"
+                  className="absolute left-4 top-2 text-xs font-semibold text-neutral-500 transition-all pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:font-normal peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-purple-400"
+                >
+                  Full Name
+                </label>
+              </div>
+
+              {/* Email Input */}
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email address"
+                  className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
+                  required
+                />
+                <label
+                  htmlFor="email"
+                  className="absolute left-4 top-2 text-xs font-semibold text-neutral-500 transition-all pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:font-normal peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-purple-400"
+                >
+                  Email address
+                </label>
+              </div>
+
+              {/* Password Input */}
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className="peer w-full px-4 pt-6 pb-2 pr-14 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
+                  required
+                />
+                <label
+                  htmlFor="password"
+                  className="absolute left-4 top-2 text-xs font-semibold text-neutral-500 transition-all pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:font-normal peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-purple-400"
+                >
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white focus:outline-none text-sm font-medium transition-colors"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 text-white font-medium py-3 px-4 rounded-xl shadow-[0_8px_20px_-6px_rgba(168,85,247,0.4)] transform transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  Sign Up
+                </button>
+              </div>
+
+              <div className="flex items-center my-1 before:flex-1 before:border-t before:border-neutral-800 before:mt-0.5 after:flex-1 after:border-t after:border-neutral-800 after:mt-0.5">
+                <p className="text-center text-xs font-semibold text-neutral-500 mx-4 mb-0">
+                  OR
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2.5 px-4 rounded-xl transition-colors outline-none cursor-pointer border border-neutral-700 hover:border-neutral-600"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Sign up with Google
+              </button>
+            </form>
+
+            <div className="mt-4 text-center text-xs text-neutral-500 leading-relaxed">
+              By signing up, you agree to our{" "}
+              <a
+                href="#"
+                className="font-semibold text-neutral-400 hover:text-purple-400 transition-colors"
+              >
+                Terms
+              </a>
+              ,{" "}
+              <a
+                href="#"
+                className="font-semibold text-neutral-400 hover:text-purple-400 transition-colors"
+              >
+                Privacy Policy
+              </a>{" "}
+              and{" "}
+              <a
+                href="#"
+                className="font-semibold text-neutral-400 hover:text-purple-400 transition-colors"
+              >
+                Cookies Policy
+              </a>
+              .
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-neutral-800 text-center">
+              <p className="text-neutral-400 text-sm font-medium">
+                Have an account?{" "}
+                <Link
+                  to="/login"
+                  className="font-medium text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 hover:opacity-80 transition-opacity"
+                >
+                  Log in
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
