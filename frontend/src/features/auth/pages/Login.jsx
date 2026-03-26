@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import useGoogleAuth from '../hooks/useGoogleAuth';
 import handleSubmit from '../../../utils/handleForm';
 
 const Login = () => {
 
   const {handleLogin} = useAuth();
+  const {handleGoogleAuth} = useGoogleAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -115,6 +117,7 @@ const Login = () => {
 
               <button 
                 type="button"
+                onClick={handleGoogleAuth}
                 className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-3 px-4 rounded-xl transition-colors outline-none cursor-pointer border border-neutral-700 hover:border-neutral-600"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

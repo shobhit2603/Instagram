@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import useGoogleAuth from "../hooks/useGoogleAuth";
 import handleSubmit from "../../../utils/handleForm";
 
 const Register = () => {
   const { handleRegister } = useAuth();
+  const { handleGoogleAuth } = useGoogleAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -158,6 +160,7 @@ const Register = () => {
 
               <button
                 type="button"
+                onClick={handleGoogleAuth}
                 className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2.5 px-4 rounded-xl transition-colors outline-none cursor-pointer border border-neutral-700 hover:border-neutral-600"
               >
                 <svg

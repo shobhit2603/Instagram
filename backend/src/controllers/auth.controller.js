@@ -196,17 +196,13 @@ export async function googleAuth(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // Send Response (redirect to frontend on success)
-    /* res.redirect(process.env.FRONTEND_URL || "/"); */
-    res.status(200).json({
-      message: "User logged in successfully",
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        fullName: user.fullName,
-      },
-    });
+    // Send HTML block to interface with the popup window successfully
+    res.send(`
+      <script>
+        window.opener.postMessage("google-auth-success", "http://localhost:5173");
+        window.close();
+      </script>
+    `);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
