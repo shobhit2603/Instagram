@@ -1,32 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import handleSubmit from "../../../utils/handleForm";
 
 const Register = () => {
   const { handleRegister } = useAuth();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    fullname: "",
-    email: "",
-    password: "",
-  });
-
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await handleRegister(formData);
-      navigate("/profile");
-    } catch (error) {
-      console.error("Registration failed:", error);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 selection:bg-purple-500/30">
@@ -69,15 +48,16 @@ const Register = () => {
               Create an account
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form
+              onSubmit={(e) => handleSubmit(e, handleRegister)}
+              className="space-y-3"
+            >
               {/* Username Input */}
               <div className="relative">
                 <input
                   type="text"
                   name="username"
                   id="username"
-                  value={formData.username}
-                  onChange={handleChange}
                   placeholder="Username"
                   className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
@@ -96,8 +76,6 @@ const Register = () => {
                   type="text"
                   name="fullname"
                   id="fullname"
-                  value={formData.fullname}
-                  onChange={handleChange}
                   placeholder="Full Name"
                   className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
@@ -116,8 +94,6 @@ const Register = () => {
                   type="email"
                   name="email"
                   id="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   placeholder="Email address"
                   className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
@@ -136,8 +112,6 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
-                  value={formData.password}
-                  onChange={handleChange}
                   placeholder="Password"
                   className="peer w-full px-4 pt-6 pb-2 pr-14 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required

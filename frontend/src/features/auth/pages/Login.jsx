@@ -1,23 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import handleSubmit from '../../../utils/handleForm';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
 
+  const {handleLogin} = useAuth()
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // User logic handles login here
-    console.log("Login Form Submitted:", formData);
-  };
 
   return (
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 selection:bg-purple-500/30">
@@ -53,7 +42,7 @@ const Login = () => {
 
             <h3 className="text-2xl text-white mb-6 hidden md:block">Welcome back</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={(e)=>handleSubmit(e,handleLogin)} className="space-y-4">
               
               {/* Email Input */}
               <div className="relative">
@@ -61,8 +50,6 @@ const Login = () => {
                   type="email" 
                   name="email"
                   id="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   placeholder="Email address"
                   className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
@@ -81,8 +68,6 @@ const Login = () => {
                   type={showPassword ? "text" : "password"} 
                   name="password"
                   id="password"
-                  value={formData.password}
-                  onChange={handleChange}
                   placeholder="Password"
                   className="peer w-full px-4 pt-6 pb-2 pr-14 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
