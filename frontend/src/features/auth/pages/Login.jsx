@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import handleSubmit from '../../../utils/handleForm';
 
 const Login = () => {
 
-  const {handleLogin} = useAuth()
+  const {handleLogin} = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -42,7 +43,14 @@ const Login = () => {
 
             <h3 className="text-2xl text-white mb-6 hidden md:block">Welcome back</h3>
             
-            <form onSubmit={(e)=>handleSubmit(e,handleLogin)} className="space-y-4">
+            <form onSubmit={(e) => handleSubmit(e, async (obj) => {
+              try {
+                await handleLogin(obj);
+                navigate("/");
+              } catch (error) {
+                console.error("Login failed:", error);
+              }
+            })} className="space-y-4">
               
               {/* Email Input */}
               <div className="relative">
@@ -81,7 +89,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white focus:outline-none text-sm font-medium transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white focus:outline-none text-sm font-medium transition-colors cursor-pointer"
                 >
                   {showPassword ? 'Hide' : 'Show'}
                 </button>

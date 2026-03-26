@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import handleSubmit from "../../../utils/handleForm";
 
 const Register = () => {
   const { handleRegister } = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -49,7 +50,16 @@ const Register = () => {
             </h3>
 
             <form
-              onSubmit={(e) => handleSubmit(e, handleRegister)}
+              onSubmit={(e) =>
+                handleSubmit(e, async (obj) => {
+                  try {
+                    await handleRegister(obj);
+                    navigate("/");
+                  } catch (error) {
+                    console.error("Register failed:", error);
+                  }
+                })
+              }
               className="space-y-3"
             >
               {/* Username Input */}
@@ -125,7 +135,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white focus:outline-none text-sm font-medium transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white focus:outline-none text-sm font-medium transition-colors cursor-pointer"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
