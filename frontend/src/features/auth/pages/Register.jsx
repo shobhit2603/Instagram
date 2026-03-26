@@ -37,7 +37,7 @@ const Register = () => {
         <div className="md:w-1/2 p-6 lg:p-8 flex flex-col justify-center bg-neutral-900 relative">
           <div className="max-w-md mx-auto w-full">
             <div className="md:hidden text-center mb-4">
-              <h1 className="text-4xl font-extrabold text-white mb-2">
+              <h1 className="text-4xl font-medium text-white mb-2">
                 Instagram
               </h1>
               <p className="text-neutral-400 text-sm">

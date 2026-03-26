@@ -35,7 +35,7 @@ const Login = () => {
           <div className="max-w-md mx-auto w-full">
             {/* Mobile Header (Hidden on Desktop) */}
             <div className="md:hidden text-center mb-8">
-              <h1 className="text-4xl font-extrabold text-white mb-2">
+              <h1 className="text-4xl font-medium text-white mb-2">
                 Instagram
               </h1>
               <p className="text-neutral-400 text-sm">Log in to see photos and videos from your friends.</p>
