@@ -57,18 +57,18 @@ const Login = () => {
               {/* Email Input */}
               <div className="relative">
                 <input 
-                  type="email" 
-                  name="email"
-                  id="email"
-                  placeholder="Email address"
+                  type="text" 
+                  name="usernameOrEmail"
+                  id="usernameOrEmail"
+                  placeholder="Username or Email"
                   className="peer w-full px-4 pt-6 pb-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white focus:outline-none focus:border-purple-500 focus:bg-neutral-900 transition-all placeholder-transparent"
                   required
                 />
                 <label 
-                  htmlFor="email" 
+                  htmlFor="usernameOrEmail" 
                   className="absolute left-4 top-2 text-xs font-semibold text-neutral-500 transition-all pointer-events-none peer-placeholder-shown:text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:font-normal peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-purple-400"
                 >
-                  Email address
+                  Username or Email
                 </label>
               </div>
 

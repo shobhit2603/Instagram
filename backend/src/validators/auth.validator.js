@@ -44,9 +44,13 @@ export const registerValidation = [
 
 export const loginValidation = [
     body('email')
-        .notEmpty().withMessage('Email is required')
+        .optional()
         .isEmail().withMessage('Invalid email format')
         .normalizeEmail()
+        .trim(),
+    body('username')
+        .optional()
+        .isString().withMessage('Username must be a string')
         .trim(),
     body('password')
         .notEmpty().withMessage('Password is required'),

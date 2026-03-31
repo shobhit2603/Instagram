@@ -67,13 +67,21 @@ export async function register(req, res) {
 
 export async function login(req, res) {
   try {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    const query = [];
+    if (email) query.push({ email });
+    if (username) query.push({ username });
+
+    if (query.length === 0) {
+      return res.status(400).json({ error: "Please provide email or username" });
+    }
+
+    // Find user by email or username
+    const user = await User.findOne({ $or: query });
 
     if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid email or username or password" });
     }
 
     // Check password
@@ -82,7 +90,7 @@ export async function login(req, res) {
       user.password;
 
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid email or username or password" });
     }
 
     // Generate JWT token

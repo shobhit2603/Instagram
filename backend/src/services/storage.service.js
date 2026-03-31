@@ -7,11 +7,11 @@ const client = new ImageKit({
   urlEndpoint: config.IMAGEKIT_URL_ENDPOINT,
 });
 
-export async function uploadFile(file, folderPath) {
+export async function uploadFile(buffer, fileName) {
   try {
     const result = await client.files.upload({
-      file: file,
-      fileName: file.name,
+      file: buffer,
+      fileName: fileName,
       folder: "/posts",
     });
     return result;

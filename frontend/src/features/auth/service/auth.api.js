@@ -14,11 +14,15 @@ export async function register({ username, email, fullname, password }) {
   return response.data;
 }
 
-export async function login({ email, password }) {
+export async function login({ usernameOrEmail, password }) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const isEmail = emailRegex.test(usernameOrEmail);
+
   const response = await axios.post(
     "http://localhost:3000/api/auth/login",
     {
-      email,
+      [isEmail ? "email" : "username"]: usernameOrEmail,
       password,
     },
     { withCredentials: true },
