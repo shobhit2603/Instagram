@@ -10,10 +10,11 @@ const client = new ImageKit({
 export async function uploadFile(buffer, fileName) {
   try {
     const result = await client.files.upload({
-      file: await ImageKit.toFile(buffer, fileName),
+      file: buffer.toString("base64"),
       fileName: fileName,
       folder: "Instagram/posts",
     });
+
     return result;
   } catch (error) {
     throw error;

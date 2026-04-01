@@ -1,10 +1,6 @@
 import { Router } from "express";
 import { authUser } from "../middlewares/auth.middleware.js";
-import {
-  createPost,
-  deletePost,
-  getPosts,
-} from "../controllers/post.controller.js";
+import { createPost, getPosts } from "../controllers/post.controller.js";
 import multer from "multer";
 
 const upload = multer({
@@ -17,10 +13,7 @@ const upload = multer({
 const router = Router();
 
 // Create Post - POST /api/posts
-router.post("/", authUser, upload.single("image"), createPost);
-
-// Delete Post - DELETE /api/posts/:id
-router.delete("/:id", authUser, deletePost);
+router.post("/", authUser, upload.array("media", 7), createPost);
 
 // Get Posts - GET /api/posts
 router.get("/", getPosts);
