@@ -10,23 +10,12 @@ const client = new ImageKit({
 export async function uploadFile(buffer, fileName) {
   try {
     const result = await client.files.upload({
-      file: buffer,
+      file: await ImageKit.toFile(buffer, fileName),
       fileName: fileName,
-      folder: "/posts",
+      folder: "Instagram/posts",
     });
     return result;
   } catch (error) {
     throw error;
   }
 }
-
-export async function deleteFile(fileId) {
-  try {
-    const result = await client.files.delete(fileId);
-    return result;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export default client;

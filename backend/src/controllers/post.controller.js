@@ -1,26 +1,41 @@
 import Post from "../models/post.model.js";
-import { uploadFile, deleteFile } from "../services/storage.service.js";
+import { uploadFile } from "../services/storage.service.js";
 
 export async function createPost(req, res) {
   try {
+    const author = req.user.id;
     const { caption } = req.body;
-    const file = req.file;
+    const files = req.files;
 
-    if (!file) {
-      return res.status(400).json({ error: "Please upload a file" });
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: "Please upload at least one image or video" });
     }
 
-    const result = await uploadFile(file, "/posts");
+    // Upload files
+    const media = await Promise.all(
+      files.map(async (file) => {
+        const result = await uploadFile(file.buffer, file.originalname);
 
+        return {
+          url: result.url,
+          type: file.mimetype.split("/")[0],
+        };
+      })
+    );
+
+    // Create new post
     const post = new Post({
       caption,
-      image: result.url,
-      author: req.user.id,
+      author,
+      media: media.filter(
+        (m) => m.type === "image" || m.type === "video"
+      ),
     });
-
     await post.save();
 
-    res.status(201).json({
+    // Send response
+    return res.status(201).json({
+      success: true,
       message: "Post created successfully",
       post,
     });
@@ -29,36 +44,16 @@ export async function createPost(req, res) {
   }
 }
 
-export async function deletePost(req, res) {
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-
-    if (post.author.toString() !== req.user.id) {
-      return res.status(403).json({ error: "Unauthorized" });
-    }
-
-    await deleteFile(post.fileId);
-    await post.deleteOne();
-
-    res.status(200).json({
-      message: "Post deleted successfully",
-    });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-}
-
 export async function getPosts(req, res) {
   try {
+    // Fetch all posts with author details
     const posts = await Post.find()
-      .populate("author", "username profileImage")
+      .populate("author", "username profilePicture")
       .sort({ createdAt: -1 });
 
+    // Send response
     res.status(200).json({
+      success: true,
       message: "Posts fetched successfully",
       posts,
     });
