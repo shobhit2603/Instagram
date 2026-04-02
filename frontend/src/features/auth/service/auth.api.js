@@ -36,3 +36,12 @@ export async function getMe() {
   });
   return response.data;
 }
+
+export async function logout() {
+  const response = await axios.post(
+    "http://localhost:3000/api/auth/logout",
+    {},
+    { withCredentials: true }
+  );
+  return response.data;
+}

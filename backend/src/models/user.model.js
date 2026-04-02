@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: "",
+      default: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
     },
     password: {
       type: String,
