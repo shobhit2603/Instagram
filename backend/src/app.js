@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import postRouter from "./routes/post.routes.js";
+import userRouter from "./routes/user.routes.js";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { config } from "./config/config.js";
@@ -38,6 +39,7 @@ passport.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/users", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Instagram Backend API");

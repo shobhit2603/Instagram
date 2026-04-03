@@ -18,8 +18,10 @@ const followSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
+
+Follow.index({ follower: 1, following: 1 }, { unique: true });
 
 const Follow = mongoose.model("Follow", followSchema);
 
