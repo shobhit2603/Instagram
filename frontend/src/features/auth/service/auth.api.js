@@ -1,16 +1,17 @@
 import axios from "axios";
 
-export async function register({ username, email, fullname, password }) {
+export async function register({ username, fullName, email, password }) {
   const response = await axios.post(
     "http://localhost:3000/api/auth/register",
     {
       username,
+      fullName,
       email,
-      fullName: fullname,
       password,
     },
     { withCredentials: true },
   );
+
   return response.data;
 }
 
@@ -41,7 +42,7 @@ export async function logout() {
   const response = await axios.post(
     "http://localhost:3000/api/auth/logout",
     {},
-    { withCredentials: true }
+    { withCredentials: true },
   );
   return response.data;
 }

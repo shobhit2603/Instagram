@@ -1,21 +1,5 @@
 @import "tailwindcss";
 
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-input, textarea {
-  user-select: text;
-}
-
-body,
-html {
-    font-family: 'GeneralSans', sans-serif;
-}
-
 @font-face {
   font-family: "GeneralSans";
   src:
@@ -28,7 +12,7 @@ html {
 }
 
 @font-face {
-  font-family: "GeneralSans-Italic";
+  font-family: "GeneralSansItalic";
   src:
     url("../fonts/GeneralSans-VariableItalic.woff2") format("woff2"),
     url("../fonts/GeneralSans-VariableItalic.woff") format("woff"),
@@ -36,4 +20,8 @@ html {
   font-weight: 200 700;
   font-display: swap;
   font-style: italic;
+}
+
+body {
+  font-family: "GeneralSans", sans-serif;
 }
