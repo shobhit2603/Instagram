@@ -153,7 +153,7 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <article className="bg-neutral-900/40 border border-neutral-800/80 sm:rounded-3xl overflow-hidden mb-6 shadow-xs group/card transition-all hover:bg-neutral-900/60 hover:border-neutral-700/80">
+    <article className="bg-neutral-900/40 border border-neutral-800/80 rounded-2xl overflow-hidden mb-6 shadow-xs group/card transition-all hover:bg-neutral-900/60 hover:border-neutral-700/80">
       {/* ═══ Header ═══ */}
       <div className="flex items-center justify-between p-4">
         <Link

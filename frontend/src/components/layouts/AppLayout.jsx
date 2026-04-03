@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Dock from "../Dock";
+import Dock from "../navigation/Dock";
 
 const AppLayout = () => {
   return (

@@ -11,7 +11,7 @@ import {
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "motion/react";
 import { useSelector } from "react-redux";
-import { useAuth } from "../features/auth/hooks/useAuth";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 
 const Dock = () => {
   const location = useLocation();
