@@ -48,7 +48,7 @@ export async function getPosts(req, res) {
   try {
     // Fetch all posts with author details
     const posts = await Post.find()
-      .populate("author", "username profilePicture")
+      .populate("author", "username profileImage")
       .sort({ createdAt: -1 });
 
     // Send response

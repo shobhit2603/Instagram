@@ -149,6 +149,7 @@ export async function getMe(req, res) {
       username: user.username,
       email: user.email,
       fullName: user.fullName,
+      profileImage: user.profileImage,
     },
   });
 }
@@ -171,13 +172,21 @@ export async function googleAuth(req, res) {
 
     if (!user) {
       // Create new user
-      const baseUsername = displayName
-        ? displayName.replace(/\s/g, "").toLowerCase()
+      const firstName = displayName
+        ? displayName.split(" ")[0].toLowerCase()
         : "user";
-      const randomSuffix = Math.floor(1000 + Math.random() * 9000).toString();
 
+      const baseUsername = firstName.replace(/[^a-z0-9]/gi, "");
+
+      let username = baseUsername;
+      let counter = 1;
+
+      while (await User.findOne({ username })) {
+        username = `${baseUsername}${counter}`;
+        counter++;
+      }
       user = new User({
-        username: `${baseUsername}${randomSuffix}`,
+        username,
         email,
         fullName: displayName || "Google User",
         profileImage: photos && photos.length > 0 ? photos[0].value : "",

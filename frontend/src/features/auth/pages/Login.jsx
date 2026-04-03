@@ -22,7 +22,7 @@ const Login = () => {
           <div className="absolute bottom-[-10%] left-[-20%] w-80 h-80 rounded-full bg-pink-500 opacity-20 blur-3xl"></div>
 
           <div className="z-10">
-            <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">Instagram</h1>
+            <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">Event<span className="text-purple-600">Loop</span></h1>
             <p className="text-neutral-400 text-lg font-medium">Welcome back.</p>
           </div>
           
@@ -38,7 +38,7 @@ const Login = () => {
             {/* Mobile Header (Hidden on Desktop) */}
             <div className="md:hidden text-center mb-8">
               <h1 className="text-4xl font-medium text-white mb-2">
-                Instagram
+                Event<span className="text-purple-500">Loop</span>
               </h1>
               <p className="text-neutral-400 text-sm">Log in to see photos and videos from your friends.</p>
             </div>

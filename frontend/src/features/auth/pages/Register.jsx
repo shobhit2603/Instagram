@@ -19,7 +19,7 @@ const Register = () => {
 
           <div className="z-10">
             <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">
-              Instagram
+              Event<span className="text-purple-600">Loop</span>
             </h1>
             <p className="text-neutral-400 text-lg font-medium">
               Join the visual world.
@@ -40,7 +40,7 @@ const Register = () => {
           <div className="max-w-md mx-auto w-full">
             <div className="md:hidden text-center mb-4">
               <h1 className="text-4xl font-medium text-white mb-2">
-                Instagram
+                Event<span className="text-purple-600">Loop</span>
               </h1>
               <p className="text-neutral-400 text-sm">
                 Sign up to see photos and videos from your friends.

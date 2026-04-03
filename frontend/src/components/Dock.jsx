@@ -106,23 +106,12 @@ const Dock = () => {
             to="/"
             className="text-white hover:opacity-80 transition-opacity flex items-center gap-3"
           >
-            <motion.div
-              whileHover={{ rotate: 15, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-8 h-8 rounded-lg bg-linear-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-[0_0_20px_rgba(168,85,247,0.5)] shrink-0"
-            >
-              <div className="w-full h-full bg-neutral-950 rounded-lg flex items-center justify-center relative overflow-hidden">
-                <div className="w-3 h-3 rounded-full border-2 border-white relative z-10"></div>
-                {/* Internal glow */}
-                <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/20 to-pink-500/20 blur-sm"></div>
-              </div>
-            </motion.div>
-            <span
+            <p
               className="hidden xl:block text-2xl tracking-tighter"
               style={{ fontFamily: "var(--font-instagram, sans-serif)" }}
             >
-              Instagram
-            </span>
+              Event<span className="text-purple-500">Loop</span>
+            </p>
           </Link>
         </div>
 
@@ -137,14 +126,14 @@ const Dock = () => {
                 key={item.label}
                 to={item.path}
                 className={`relative flex items-center gap-4 px-3 py-3.5 rounded-2xl transition-all duration-300 outline-none
-                  ${isActive ? "bg-white/10 text-white shadow-inner" : "text-neutral-400 hover:bg-neutral-900/60 hover:text-white"}`}
+                  ${isActive ? "text-white shadow-inner" : "text-neutral-400 hover:text-white"}`}
               >
                 {/* Active Indicator Line utilizing layoutId for smooth transition between tabs */}
                 <AnimatePresence>
                   {isActive && (
                     <motion.div
                       layoutId="sidebar-active-indicator"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-2/3 bg-linear-to-b from-indigo-400 to-pink-400 rounded-l-md shadow-[2px_0_12px_rgba(236,72,153,0.8)]"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-2/3 bg-linear-to-b from-indigo-400 to-pink-400 shadow-[2px_0_12px_rgba(236,72,153,0.8)]"
                       transition={{
                         type: "spring",
                         stiffness: 300,

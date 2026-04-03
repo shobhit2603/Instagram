@@ -12,7 +12,7 @@ export async function uploadFile(buffer, fileName) {
     const result = await client.files.upload({
       file: buffer.toString("base64"),
       fileName: fileName,
-      folder: "Instagram/posts",
+      folder: "EventLoop/posts",
     });
 
     return result;

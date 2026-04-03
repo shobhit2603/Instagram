@@ -1,14 +1,13 @@
-import { Router } from "express";
-import { searchUser, followUser } from "../controllers/user.controller.js";
-import { protect } from "../middlewares/auth.middleware.js";
-import { followUserValidator } from "../validators/user.validator.js";
+import express from "express"
+import { followUser, searchUser } from "../controllers/user.controller.js"
+import { authUser } from "../middlewares/auth.middleware.js"
+import { validateFollowUser } from "../validators/user.validator.js"
 
-const router = Router();
+const router = express.Router()
 
-// Search User - GET /api/users/search?q=shobhit
-router.get("/search", searchUser);
+router.get("/search", searchUser)
 
-// Follow User - POST /api/users/follow/:userId
-router.post("/follow/:userId", protect, followUserValidator, followUser);
+router.post("/follow/:userId", validateFollowUser, authUser, followUser)
+
 
 export default router;
