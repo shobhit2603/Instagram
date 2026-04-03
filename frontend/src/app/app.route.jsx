@@ -3,13 +3,13 @@ import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 import Home from "../features/posts/pages/Home";
 import Profile from "../features/users/pages/Profile";
-import MainLayout from "./MainLayout";
+import AppLayout from "../components/layouts/AppLayout";
 import Search from "../features/users/pages/Search";
 import CreatePost from "../features/posts/pages/CreatePost";
 
 const router = createBrowserRouter([
   {
-    element: <MainLayout />,
+    element: <AppLayout />,
     children: [
       {
         path: "/",
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: "/create",
         element: <CreatePost />,
-      }
+      },
     ],
   },
   {
