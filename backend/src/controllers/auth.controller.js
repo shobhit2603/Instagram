@@ -150,6 +150,8 @@ export async function getMe(req, res) {
       email: user.email,
       fullName: user.fullName,
       profileImage: user.profileImage,
+      bio: user.bio,
+      isPrivate: user.isPrivate,
     },
   });
 }
