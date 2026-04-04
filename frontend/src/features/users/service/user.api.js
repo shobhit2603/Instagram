@@ -1,9 +1,11 @@
 import axios from "axios";
 
-export async function searchUser({ query }) {
-  return axios.get("http://localhost:3000/api/users/search", {
-    params: { query },
+export async function searchUser(q) {
+  const response = await axios.get("http://localhost:3000/api/users/search", {
+    params: { q },
+    withCredentials: true,
   });
+  return response.data;
 }
 
 export async function getProfile() {

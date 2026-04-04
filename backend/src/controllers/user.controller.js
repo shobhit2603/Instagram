@@ -6,33 +6,67 @@ import { uploadFile } from "../services/storage.service.js";
 // /api/users/search?q=shobhit
 
 export const searchUser = async (req, res) => {
-  const { q } = req.query;
+  try {
+    const { q } = req.query;
 
-  const users = await User.aggregate([
-    {
-      $search: {
-        index: "user_search_feature",
-        autocomplete: {
-          query: q,
-          path: "username",
-        }
-      }
-    },
-    {
-      $project: {
-        username: 1,
-        fullname: 1,
-        profilePicture: 1,
-        score: { $meta: "searchScore" }
-      }
+    if (!q || q.trim() === "") {
+      return res.status(200).json({
+        message: "No query provided",
+        success: true,
+        users: [],
+      });
     }
-  ])
 
-  res.status(200).json({
-    message: "Users fetched successfully",
-    users
-  })
-}
+    const users = await User.aggregate([
+      {
+        $search: {
+          index: "user_search_feature",
+          compound: {
+            should: [
+              {
+                autocomplete: {
+                  query: q,
+                  path: "username",
+                  fuzzy: { maxEdits: 1 },
+                },
+              },
+              {
+                autocomplete: {
+                  query: q,
+                  path: "fullName",
+                  fuzzy: { maxEdits: 1 },
+                },
+              },
+            ],
+          },
+        },
+      },
+      {
+        $limit: 20,
+      },
+      {
+        $project: {
+          username: 1,
+          fullName: 1,
+          profileImage: 1,
+          score: { $meta: "searchScore" },
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      message: "Users fetched successfully",
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Search failed",
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
 // /api/users/follow/:userId
 
