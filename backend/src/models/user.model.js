@@ -26,7 +26,9 @@ const userSchema = new mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: "https://i.pinimg.com/736x/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg",
+      default: function () {
+        return `https://api.dicebear.com/9.x/bottts/svg?seed=${this.username}`;
+      },
     },
     password: {
       type: String,

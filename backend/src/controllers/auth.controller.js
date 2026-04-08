@@ -58,6 +58,7 @@ export async function register(req, res) {
         username: user.username,
         email: user.email,
         fullName: user.fullName,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -118,6 +119,7 @@ export async function login(req, res) {
         username: user.username,
         email: user.email,
         fullName: user.fullName,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
