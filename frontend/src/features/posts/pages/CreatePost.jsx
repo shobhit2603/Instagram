@@ -19,7 +19,7 @@ import {
 import { usePost } from "../hooks/usePost";
 
 const MAX_FILES = 7;
-const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+const MAX_FILE_SIZE = 30 * 1024 * 1024; // 30MB
 const ACCEPTED_TYPES = [
   "image/jpeg",
   "image/png",
@@ -249,7 +249,7 @@ const CreatePost = () => {
                   </p>
                   <p className="text-neutral-600 text-xs text-center max-w-xs">
                     Images (JPG, PNG, WebP, GIF) and Videos (MP4, WebM) up to
-                    15MB
+                    30MB
                   </p>
 
                   {/* File type badges */}
