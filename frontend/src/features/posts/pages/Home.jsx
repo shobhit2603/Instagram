@@ -46,7 +46,7 @@ const Home = () => {
             <Camera className="w-8 h-8 text-neutral-500" />
           </div>
           <h3 className="text-xl font-semibold text-white/90 mb-2">No Posts Yet</h3>
-          <p className="text-neutral-500 text-sm max-w-[200px] mx-auto leading-relaxed">
+          <p className="text-neutral-500 text-sm max-w-50 mx-auto leading-relaxed">
             Follow people or create a post to see photos and videos here.
           </p>
         </div>
