@@ -6,36 +6,52 @@ import Profile from "../features/users/pages/Profile";
 import AppLayout from "../components/layouts/AppLayout";
 import Search from "../features/users/pages/Search";
 import CreatePost from "../features/posts/pages/CreatePost";
+import { ProtectedRoute, GuestRoute } from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
+      // Public Routes
       {
         path: "/",
         element: <Home />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
-      },
-      {
         path: "/search",
         element: <Search />,
       },
+
+      // Protected Routes
       {
-        path: "/create",
-        element: <CreatePost />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+          {
+            path: "/create",
+            element: <CreatePost />,
+          },
+        ],
       },
     ],
   },
+
+  // Guest Routes
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
+    element: <GuestRoute />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    ],
   },
 ]);
 

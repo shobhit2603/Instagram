@@ -172,7 +172,7 @@ const CreatePost = () => {
               <img
                 src={
                   user.profileImage ||
-                  "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+                  `https://api.dicebear.com/9.x/bottts/svg?seed=${user.username}`
                 }
                 alt={user.username}
                 className="w-full h-full object-cover"
@@ -218,10 +218,9 @@ const CreatePost = () => {
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 className={`relative cursor-pointer group rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden
-                  ${
-                    dragActive
-                      ? "border-purple-500 bg-purple-500/10 scale-[1.01]"
-                      : "border-neutral-700/60 hover:border-neutral-600 bg-neutral-900/40 hover:bg-neutral-800/30"
+                  ${dragActive
+                    ? "border-purple-500 bg-purple-500/10 scale-[1.01]"
+                    : "border-neutral-700/60 hover:border-neutral-600 bg-neutral-900/40 hover:bg-neutral-800/30"
                   }`}
               >
                 <div className="flex flex-col items-center justify-center py-16 md:py-20 px-6">
@@ -233,10 +232,9 @@ const CreatePost = () => {
                     }}
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-5 transition-colors duration-300
-                      ${
-                        dragActive
-                          ? "bg-purple-500/20 text-purple-400"
-                          : "bg-neutral-800/80 text-neutral-500 group-hover:bg-neutral-700/80 group-hover:text-neutral-400"
+                      ${dragActive
+                        ? "bg-purple-500/20 text-purple-400"
+                        : "bg-neutral-800/80 text-neutral-500 group-hover:bg-neutral-700/80 group-hover:text-neutral-400"
                       }`}
                   >
                     <ImagePlus className="w-8 h-8" strokeWidth={1.5} />
@@ -357,10 +355,9 @@ const CreatePost = () => {
                       transition={{ delay: i * 0.05 }}
                       onClick={() => setActivePreview(i)}
                       className={`relative shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-200 cursor-pointer group
-                        ${
-                          i === activePreview
-                            ? "border-purple-500 shadow-lg shadow-purple-500/20"
-                            : "border-neutral-700/50 hover:border-neutral-600"
+                        ${i === activePreview
+                          ? "border-purple-500 shadow-lg shadow-purple-500/20"
+                          : "border-neutral-700/50 hover:border-neutral-600"
                         }`}
                     >
                       {f.type === "video" ? (
@@ -438,9 +435,8 @@ const CreatePost = () => {
               <motion.span
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`absolute bottom-3 right-3 text-xs font-medium ${
-                  caption.length > 2150 ? "text-red-400" : "text-amber-400"
-                }`}
+                className={`absolute bottom-3 right-3 text-xs font-medium ${caption.length > 2150 ? "text-red-400" : "text-amber-400"
+                  }`}
               >
                 {2200 - caption.length} left
               </motion.span>
@@ -540,10 +536,9 @@ const SubmitButton = ({ canSubmit, onClick }) => (
     onClick={onClick}
     disabled={!canSubmit}
     className={`w-full relative overflow-hidden group flex items-center justify-center gap-3 py-4 rounded-2xl font-semibold text-sm transition-all duration-300 cursor-pointer
-      ${
-        canSubmit
-          ? "bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40"
-          : "bg-neutral-800/60 text-neutral-600 cursor-not-allowed"
+      ${canSubmit
+        ? "bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40"
+        : "bg-neutral-800/60 text-neutral-600 cursor-not-allowed"
       }`}
   >
     {/* Shimmer effect */}

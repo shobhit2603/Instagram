@@ -56,7 +56,7 @@ const Dock = () => {
         initial={{ y: 100, opacity: 0, x: "-50%" }}
         animate={{ y: 0, opacity: 1, x: "-50%" }}
         transition={{ type: "spring", stiffness: 400, damping: 25, delay: 0.1 }}
-        className="md:hidden fixed bottom-5 left-1/2 z-50 w-[90%] max-w-[400px]"
+        className="md:hidden fixed bottom-5 left-1/2 z-50 w-[90%] max-w-100"
       >
         <div className="flex items-center justify-between px-6 py-4 bg-neutral-900/80 backdrop-blur-2xl border border-neutral-800 shadow-[0_8px_32px_rgba(0,0,0,0.8)] rounded-full">
           {navItems.map((item) => {
@@ -202,7 +202,7 @@ const Dock = () => {
                 <img
                   src={
                     user.profileImage ||
-                    "https://i.pinimg.com/736x/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg"
+                    `https://api.dicebear.com/9.x/bottts/svg?seed=${user.username}`
                   }
                   alt={user.username}
                   className="w-full h-full object-cover"

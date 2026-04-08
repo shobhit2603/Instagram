@@ -30,7 +30,7 @@ const PostCard = ({ post }) => {
   const authorName = post.author?.username || post.author || "User";
   const profileImg =
     post.author?.profileImage ||
-    "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
+    `https://api.dicebear.com/9.x/bottts/svg?seed=${authorName}`;
 
   // ── Format time ──
   const formatTime = (dateString) => {
@@ -71,7 +71,7 @@ const PostCard = ({ post }) => {
           const vid = videoRefs.current[idx];
           if (vid) {
             vid.currentTime = 0;
-            vid.play().catch(() => {});
+            vid.play().catch(() => { });
             setPlayingVideos((prev) => ({ ...prev, [idx]: true }));
           }
         }, 100);
@@ -103,7 +103,7 @@ const PostCard = ({ post }) => {
     const vid = videoRefs.current[idx];
     if (!vid) return;
     if (vid.paused) {
-      vid.play().catch(() => {});
+      vid.play().catch(() => { });
       setPlayingVideos((prev) => ({ ...prev, [idx]: true }));
     } else {
       vid.pause();
@@ -123,7 +123,7 @@ const PostCard = ({ post }) => {
         if (currentMedia?.type !== "video" || !vid) return;
 
         if (entry.isIntersecting) {
-          vid.play().catch(() => {});
+          vid.play().catch(() => { });
           setPlayingVideos((prev) => ({ ...prev, [currentIndex]: true }));
         } else {
           vid.pause();
@@ -160,7 +160,7 @@ const PostCard = ({ post }) => {
           to={`/profile/${post.author?._id || post.author}`}
           className="flex items-center gap-3 group"
         >
-          <div className="w-10 h-10 rounded-full bg-linear-to-tr from-indigo-500 via-purple-500 to-pink-500 p-[2px] shadow-[0_0_12px_rgba(168,85,247,0.3)] transition-transform group-hover:scale-105">
+          <div className="w-10 h-10 rounded-full bg-linear-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-[0_0_12px_rgba(168,85,247,0.3)] transition-transform group-hover:scale-105">
             <div className="w-full h-full bg-neutral-950 rounded-full overflow-hidden border border-neutral-950">
               <img
                 src={profileImg}
@@ -338,11 +338,10 @@ const PostCard = ({ post }) => {
                     opacity: idx === currentIndex ? 1 : 0.4,
                   }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  className={`rounded-full transition-colors cursor-pointer ${
-                    idx === currentIndex
+                  className={`rounded-full transition-colors cursor-pointer ${idx === currentIndex
                       ? "w-2 h-2 bg-white shadow-[0_0_6px_rgba(255,255,255,0.6)]"
                       : "w-1.5 h-1.5 bg-white/70"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -365,11 +364,10 @@ const PostCard = ({ post }) => {
               className="cursor-pointer group"
             >
               <Heart
-                className={`w-6 h-6 transition-colors duration-300 ${
-                  isLiked
+                className={`w-6 h-6 transition-colors duration-300 ${isLiked
                     ? "text-pink-500 fill-pink-500"
                     : "text-neutral-400 group-hover:text-pink-500"
-                }`}
+                  }`}
               />
             </motion.button>
             <motion.button
@@ -391,11 +389,10 @@ const PostCard = ({ post }) => {
             className="cursor-pointer"
           >
             <Bookmark
-              className={`w-6 h-6 transition-colors duration-300 ${
-                isSaved
+              className={`w-6 h-6 transition-colors duration-300 ${isSaved
                   ? "text-white fill-white"
                   : "text-neutral-400 hover:text-white"
-              }`}
+                }`}
             />
           </motion.button>
         </div>

@@ -139,9 +139,8 @@ const Search = () => {
                     exit={{ opacity: 0, scale: 0.5 }}
                   >
                     <SearchIcon
-                      className={`w-5 h-5 transition-colors duration-300 ${
-                        focused ? "text-purple-400" : "text-neutral-500"
-                      }`}
+                      className={`w-5 h-5 transition-colors duration-300 ${focused ? "text-purple-400" : "text-neutral-500"
+                        }`}
                     />
                   </motion.div>
                 )}
@@ -231,7 +230,7 @@ const Search = () => {
                         <img
                           src={
                             user.profileImage ||
-                            "https://i.pinimg.com/736x/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg"
+                            `https://api.dicebear.com/9.x/bottts/svg?seed=${user.username}`
                           }
                           alt={user.username}
                           className="w-full h-full object-cover"
@@ -248,7 +247,7 @@ const Search = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="shrink-0 flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-xl"
+                        className="shrink-0 flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-xl cursor-pointer"
                       >
                         <UserPlus className="w-4 h-4" />
                         <span className="hidden sm:inline">Follow</span>

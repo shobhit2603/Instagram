@@ -100,7 +100,7 @@ const Profile = () => {
         <div className="relative shrink-0">
           <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-neutral-800 ring-offset-2 ring-offset-neutral-950">
             <img
-              src={profile.profileImage}
+              src={profile.profileImage || `https://api.dicebear.com/9.x/bottts/svg?seed=${profile.username}`}
               alt={profile.username}
               className="w-full h-full object-cover"
             />
@@ -244,7 +244,7 @@ const Profile = () => {
               >
                 <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-neutral-700">
                   <img
-                    src={previewImage || profile.profileImage}
+                    src={previewImage || profile.profileImage || `https://api.dicebear.com/9.x/bottts/svg?seed=${profile.username}`}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
@@ -310,14 +310,12 @@ const Profile = () => {
                 onClick={() =>
                   setEditForm({ ...editForm, isPrivate: !editForm.isPrivate })
                 }
-                className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${
-                  editForm.isPrivate ? "bg-purple-500" : "bg-neutral-600"
-                }`}
+                className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${editForm.isPrivate ? "bg-purple-500" : "bg-neutral-600"
+                  }`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
-                    editForm.isPrivate ? "translate-x-5" : "translate-x-0"
-                  }`}
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${editForm.isPrivate ? "translate-x-5" : "translate-x-0"
+                    }`}
                 />
               </button>
             </div>
