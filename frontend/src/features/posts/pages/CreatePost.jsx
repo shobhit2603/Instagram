@@ -520,7 +520,7 @@ const CreatePost = () => {
       >
         <p className="text-xs text-neutral-600">
           Tip: You can upload up to {MAX_FILES} images or videos per post • Max
-          15MB each
+          30MB each
         </p>
       </motion.div>
     </div>

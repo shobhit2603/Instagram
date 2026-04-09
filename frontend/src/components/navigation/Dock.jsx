@@ -3,6 +3,7 @@ import {
   Home,
   Search,
   SquarePlus,
+  Bell,
   MessageCircle,
   User,
   LogOut,
@@ -24,6 +25,7 @@ const Dock = () => {
     { icon: Home, path: "/", label: "Home" },
     { icon: Search, path: "/search", label: "Search" },
     { icon: SquarePlus, path: "/create", label: "Create" },
+    { icon: Bell, path: "/notifications", label: "Notifications" },
     { icon: MessageCircle, path: "/messages", label: "Messages" },
     { icon: User, path: "/profile", label: "Profile" },
   ];
@@ -110,7 +112,7 @@ const Dock = () => {
               className="hidden xl:block text-2xl tracking-tighter"
               style={{ fontFamily: "var(--font-instagram, sans-serif)" }}
             >
-              Event<span className="text-purple-500">Loop</span>
+              Insta<span className="text-purple-500">Gram</span>
             </p>
           </Link>
         </div>

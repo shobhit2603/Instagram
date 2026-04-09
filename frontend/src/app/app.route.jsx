@@ -7,6 +7,8 @@ import AppLayout from "../components/layouts/AppLayout";
 import Search from "../features/users/pages/Search";
 import CreatePost from "../features/posts/pages/CreatePost";
 import { ProtectedRoute, GuestRoute } from "./ProtectedRoute";
+import Notifications from "../features/users/pages/Notifications";
+import Messages from "../features/users/pages/Messages";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
             path: "/create",
             element: <CreatePost />,
           },
+          {
+            path: "/notifications",
+            element: <Notifications />,
+          },
+          {
+            path: "/messages",
+            element: <Messages />,
+          }
         ],
       },
     ],

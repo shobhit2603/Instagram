@@ -1,5 +1,5 @@
 import express from "express"
-import { followUser, searchUser, getProfile, updateProfile } from "../controllers/user.controller.js"
+import { followUser, searchUser, getProfile, updateProfile, getFollowRequests, acceptFollowRequest, rejectFollowRequest } from "../controllers/user.controller.js"
 import { authUser } from "../middlewares/auth.middleware.js"
 import { validateFollowUser } from "../validators/user.validator.js"
 import multer from "multer"
@@ -13,9 +13,15 @@ const upload = multer({
 
 const router = express.Router()
 
-router.get("/search", searchUser)
+router.get("/search", authUser, searchUser)
 
 router.post("/follow/:userId", validateFollowUser, authUser, followUser)
+
+router.get("/follow-requests", authUser, getFollowRequests)
+
+router.patch("/follow-requests/:requestId/accept", authUser, acceptFollowRequest)
+
+router.delete("/follow-requests/:requestId/reject", authUser, rejectFollowRequest)
 
 // Profile routes
 router.get("/profile", authUser, getProfile)

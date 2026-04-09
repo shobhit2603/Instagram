@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useCallback } from "react"; // Import useCallback
-import { setProfile, setUserPosts, setLoading, setError } from "../user.slice";
-import { searchUser, getProfile, updateProfile } from "../service/user.api";
+import { setProfile, setUserPosts, setFollowRequests, removeFollowRequest, setLoading, setError } from "../user.slice";
+import { searchUser, getProfile, updateProfile, followUser, getFollowRequests, acceptFollowRequest, rejectFollowRequest } from "../service/user.api";
 import { setUser } from "../../auth/auth.slice";
 
 export const useUser = () => {
@@ -12,6 +12,62 @@ export const useUser = () => {
     const data = await searchUser(query);
     return data.users;
   }, []);
+
+  const handleFollowUser = useCallback(async (userId) => {
+    try {
+      dispatch(setLoading(true));
+      const response = await followUser(userId);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }, [dispatch]);
+
+  const handleGetFollowRequests = useCallback(async () => {
+    try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+      const response = await getFollowRequests();
+      if (response.success) {
+        dispatch(setFollowRequests(response.requests));
+      }
+      return response;
+    } catch (error) {
+      dispatch(setError(error.message || "Failed to fetch follow requests"));
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }, [dispatch]);
+
+  const handleAcceptFollowRequest = useCallback(async (requestId) => {
+    try {
+      const response = await acceptFollowRequest(requestId);
+      if (response.success) {
+        dispatch(removeFollowRequest(requestId));
+      }
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }, [dispatch]);
+
+  const handleRejectFollowRequest = useCallback(async (requestId) => {
+    try {
+      const response = await rejectFollowRequest(requestId);
+      if (response.success) {
+        dispatch(removeFollowRequest(requestId));
+      }
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }, [dispatch]);
 
   const handleGetProfile = useCallback(async () => {
     try {
@@ -60,5 +116,13 @@ export const useUser = () => {
     [dispatch],
   );
 
-  return { handleSearchUser, handleGetProfile, handleUpdateProfile };
+  return {
+    handleSearchUser,
+    handleGetProfile,
+    handleUpdateProfile,
+    handleFollowUser,
+    handleGetFollowRequests,
+    handleAcceptFollowRequest,
+    handleRejectFollowRequest
+  };
 };

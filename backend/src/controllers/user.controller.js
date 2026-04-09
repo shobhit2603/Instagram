@@ -2,6 +2,7 @@ import Follow from "../models/follow.model.js";
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import { uploadFile } from "../services/storage.service.js";
+import mongoose from "mongoose";
 
 // /api/users/search?q=shobhit
 
@@ -45,11 +46,50 @@ export const searchUser = async (req, res) => {
         $limit: 20,
       },
       {
+        $lookup: {
+          from: "follows",
+          as: "followDoc",
+          let: { searchUserId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$followee", "$$searchUserId"] },
+                    { $eq: ["$follower", new mongoose.Types.ObjectId(req.user.id)] },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          followStatus: {
+            $cond: {
+              if: { $eq: [{ $size: "$followDoc" }, 0] },
+              then: "not-following",
+              else: {
+                $cond: {
+                  if: {
+                    $eq: [{ $arrayElemAt: ["$followDoc.status", 0] }, "pending"],
+                  },
+                  then: "requested",
+                  else: "following",
+                },
+              },
+            },
+          },
+        },
+      },
+      {
         $project: {
           username: 1,
           fullName: 1,
           profileImage: 1,
           score: { $meta: "searchScore" },
+          followStatus: 1,
         },
       },
     ]);
@@ -60,6 +100,7 @@ export const searchUser = async (req, res) => {
       users,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Search failed",
       success: false,
@@ -71,49 +112,155 @@ export const searchUser = async (req, res) => {
 // /api/users/follow/:userId
 
 export const followUser = async (req, res) => {
-  const { userId } = req.params;
-  const currentUserId = req.user.id;
+  try {
+    const { userId } = req.params;
+    const currentUserId = req.user.id;
 
-  const isUserExist = await User.findById(userId);
+    const isUserExist = await User.findById(userId);
 
+    if (!isUserExist) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
 
-  if (!isUserExist) {
-    return res.status(404).json({
-      message: "User not found",
+    if (userId === currentUserId) {
+      return res.status(400).json({
+        message: "You cannot follow yourself",
+        success: false,
+      });
+    }
+
+    const alreadyFollowing = await Follow.findOne({
+      follower: currentUserId,
+      followee: userId,
+    });
+
+    if (alreadyFollowing) {
+      if (alreadyFollowing.status === "pending") {
+        return res.status(400).json({
+          message: "Follow request is already pending",
+          success: false,
+        });
+      }
+      return res.status(400).json({
+        message: "You are already following this user",
+        success: false,
+      });
+    }
+
+    const follow = await Follow.create({
+      follower: currentUserId,
+      followee: userId,
+      status: "pending",
+    });
+
+    return res.status(200).json({
+      message: "Follow request sent successfully",
+      success: true,
+      follow,
+      followStatus: "requested",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong",
       success: false,
-    })
+      error: error.message,
+    });
   }
+};
 
-  if (userId === currentUserId) {
-    return res.status(400).json({
-      message: "You cannot follow yourself",
+// GET /api/users/follow-requests
+export const getFollowRequests = async (req, res) => {
+  try {
+    const loggedInUserId = req.user.id;
+
+    const requests = await Follow.find({
+      followee: loggedInUserId,
+      status: "pending",
+    }).populate("follower", "username fullName profileImage");
+
+    return res.status(200).json({
+      message: "Follow requests fetched successfully",
+      success: true,
+      requests,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to fetch follow requests",
       success: false,
-    })
+      error: error.message,
+    });
   }
+};
 
-  const alreadyFollowing = await Follow.findOne({
-    follower: currentUserId,
-    followee: userId
-  })
+// PATCH /api/users/follow-requests/:requestId/accept
+export const acceptFollowRequest = async (req, res) => {
+  try {
+    const { requestId } = req.params;
+    const loggedInUserId = req.user.id;
 
-  if (alreadyFollowing) {
-    return res.status(400).json({
-      message: "You are already following this user",
+    const followRequest = await Follow.findOne({
+      _id: requestId,
+      status: "pending",
+      followee: loggedInUserId,
+    });
+
+    if (!followRequest) {
+      return res.status(404).json({
+        message: "Follow request not found",
+        success: false,
+      });
+    }
+
+    followRequest.status = "accepted";
+    await followRequest.save();
+
+    return res.status(200).json({
+      message: "Follow request accepted successfully",
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to accept follow request",
       success: false,
-    })
+      error: error.message,
+    });
   }
+};
 
-  const follow = await Follow.create({
-    follower: currentUserId,
-    followee: userId,
-  })
+// DELETE /api/users/follow-requests/:requestId/reject
+export const rejectFollowRequest = async (req, res) => {
+  try {
+    const { requestId } = req.params;
+    const loggedInUserId = req.user.id;
 
-  return res.status(200).json({
-    message: "Follow request sent successfully",
-    success: true,
-    follow
-  })
-}
+    const followRequest = await Follow.findOneAndDelete({
+      _id: requestId,
+      status: "pending",
+      followee: loggedInUserId,
+    });
+
+    if (!followRequest) {
+      return res.status(404).json({
+        message: "Follow request not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Follow request rejected successfully",
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to reject follow request",
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
 // GET /api/users/profile
 

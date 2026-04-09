@@ -40,7 +40,7 @@ const Search = () => {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
-  const { handleSearchUser } = useUser();
+  const { handleSearchUser, handleFollowUser } = useUser();
 
   const debouncedSearch = useCallback(
     (searchQuery) => {
@@ -80,6 +80,23 @@ const Search = () => {
     setResults([]);
     setHasSearched(false);
     inputRef.current?.focus();
+  };
+
+  const onFollowUser = async (userId) => {
+    try {
+      const response = await handleFollowUser(userId);
+      if (response.success) {
+        setResults((prev) =>
+          prev.map((user) =>
+            user._id === userId
+              ? { ...user, followStatus: response.followStatus }
+              : user
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Follow failed:", error);
+    }
   };
 
   return (
@@ -245,12 +262,25 @@ const Search = () => {
                         </p>
                       </div>
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="shrink-0 flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-xl cursor-pointer"
+                        whileHover={{ scale: user.followStatus === "not-following" ? 1.05 : 1 }}
+                        whileTap={{ scale: user.followStatus === "not-following" ? 0.95 : 1 }}
+                        onClick={() => user.followStatus === "not-following" && onFollowUser(user._id)}
+                        className={`shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl cursor-pointer ${user.followStatus === "following"
+                            ? "bg-neutral-800 text-white"
+                            : user.followStatus === "requested"
+                              ? "bg-neutral-800 text-neutral-400"
+                              : "bg-purple-600 hover:bg-purple-500 text-white"
+                          }`}
+                        disabled={user.followStatus !== "not-following"}
                       >
-                        <UserPlus className="w-4 h-4" />
-                        <span className="hidden sm:inline">Follow</span>
+                        {user.followStatus === "not-following" && <UserPlus className="w-4 h-4" />}
+                        <span className="hidden sm:inline">
+                          {user.followStatus === "following"
+                            ? "Following"
+                            : user.followStatus === "requested"
+                              ? "Requested"
+                              : "Follow"}
+                        </span>
                       </motion.button>
                     </div>
                   </motion.div>
