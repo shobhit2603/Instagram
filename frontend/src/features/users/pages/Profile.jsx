@@ -10,6 +10,8 @@ import {
   Lock,
   Globe,
   ImageIcon,
+  Users,
+  UserPlus
 } from "lucide-react";
 
 const Profile = () => {
@@ -109,56 +111,61 @@ const Profile = () => {
 
         {/* Info */}
         <div className="flex-1 text-center sm:text-left min-w-0">
-          <div className="flex flex-col sm:flex-row items-center gap-3 mb-3">
-            <h1 className="text-xl font-semibold tracking-tight truncate">
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight truncate">
               {profile.username}
             </h1>
             <div className="flex items-center gap-2">
+              <button
+                onClick={openEditModal}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-neutral-800 hover:bg-neutral-700 rounded-lg text-sm font-semibold transition-all cursor-pointer"
+              >
+                <Settings className="w-4 h-4" />
+                Edit Profile
+              </button>
               {profile.isPrivate ? (
-                <span className="flex items-center gap-1 text-xs text-neutral-400 bg-neutral-800/60 px-2.5 py-1 rounded-full">
+                <span className="flex items-center gap-1 text-xs text-neutral-400 bg-neutral-800/60 px-2.5 py-1.5 rounded-lg">
                   <Lock className="w-3 h-3" /> Private
                 </span>
               ) : (
-                <span className="flex items-center gap-1 text-xs text-neutral-400 bg-neutral-800/60 px-2.5 py-1 rounded-full">
+                <span className="flex items-center gap-1 text-xs text-neutral-400 bg-neutral-800/60 px-2.5 py-1.5 rounded-lg">
                   <Globe className="w-3 h-3" /> Public
                 </span>
               )}
             </div>
           </div>
 
-          <p className="text-sm text-neutral-300 font-medium mb-1">
-            {profile.fullName}
-          </p>
+          {/* Stats */}
+          <div className="flex items-center justify-center sm:justify-start gap-8 mb-5">
+             <div className="flex flex-col sm:flex-row sm:gap-1.5 items-center">
+               <span className="text-base font-semibold text-white">{userPosts?.length || 0}</span>
+               <span className="text-sm text-neutral-300">posts</span>
+             </div>
+             <div className="flex flex-col sm:flex-row sm:gap-1.5 items-center">
+               <span className="text-base font-semibold text-white">{profile.followersCount || 0}</span>
+               <span className="text-sm text-neutral-300">followers</span>
+             </div>
+             <div className="flex flex-col sm:flex-row sm:gap-1.5 items-center">
+               <span className="text-base font-semibold text-white">{profile.followingCount || 0}</span>
+               <span className="text-sm text-neutral-300">following</span>
+             </div>
+          </div>
 
-          {profile.bio && (
-            <p className="text-sm text-neutral-400 leading-relaxed max-w-md whitespace-pre-wrap">
-              {profile.bio}
+          <div className="mt-2 text-sm">
+            <p className="font-semibold text-white mb-0.5">
+              {profile.fullName}
             </p>
-          )}
-
-          <button
-            onClick={openEditModal}
-            className="mt-4 inline-flex items-center gap-2 px-5 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-xl text-sm font-semibold transition-all cursor-pointer"
-          >
-            <Settings className="w-4 h-4" />
-            Edit Profile
-          </button>
+            {profile.bio && (
+              <p className="text-neutral-300 leading-relaxed max-w-md whitespace-pre-wrap">
+                {profile.bio}
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Divider */}
       <div className="border-t border-neutral-800 mb-6" />
-
-      {/* Posts Count */}
-      <div className="flex items-center gap-2 mb-5">
-        <ImageIcon className="w-4 h-4 text-neutral-500" />
-        <span className="text-sm font-semibold text-neutral-300 uppercase tracking-wider">
-          Posts
-        </span>
-        <span className="text-sm text-neutral-500">
-          {userPosts?.length || 0}
-        </span>
-      </div>
 
       {/* Posts Grid */}
       {userPosts && userPosts.length > 0 ? (

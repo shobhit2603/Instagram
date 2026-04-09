@@ -150,17 +150,19 @@ export const followUser = async (req, res) => {
       });
     }
 
+    const status = isUserExist.isPrivate ? "pending" : "accepted";
+
     const follow = await Follow.create({
       follower: currentUserId,
       followee: userId,
-      status: "pending",
+      status,
     });
 
     return res.status(200).json({
-      message: "Follow request sent successfully",
+      message: status === "pending" ? "Follow request sent successfully" : "Followed successfully",
       success: true,
       follow,
-      followStatus: "requested",
+      followStatus: status === "pending" ? "requested" : "following",
     });
   } catch (error) {
     return res.status(500).json({
@@ -279,6 +281,9 @@ export const getProfile = async (req, res) => {
 
     const posts = await Post.find({ author: userId }).sort({ createdAt: -1 });
 
+    const followersCount = await Follow.countDocuments({ followee: userId, status: "accepted" });
+    const followingCount = await Follow.countDocuments({ follower: userId, status: "accepted" });
+
     return res.status(200).json({
       success: true,
       message: "Profile fetched successfully",
@@ -291,6 +296,8 @@ export const getProfile = async (req, res) => {
         profileImage: user.profileImage,
         isPrivate: user.isPrivate,
         createdAt: user.createdAt,
+        followersCount,
+        followingCount,
       },
       posts,
     });
@@ -343,6 +350,9 @@ export const updateProfile = async (req, res) => {
 
     await user.save();
 
+    const followersCount = await Follow.countDocuments({ followee: userId, status: "accepted" });
+    const followingCount = await Follow.countDocuments({ follower: userId, status: "accepted" });
+
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
@@ -354,6 +364,9 @@ export const updateProfile = async (req, res) => {
         bio: user.bio,
         profileImage: user.profileImage,
         isPrivate: user.isPrivate,
+        createdAt: user.createdAt,
+        followersCount,
+        followingCount,
       },
     });
   } catch (error) {
