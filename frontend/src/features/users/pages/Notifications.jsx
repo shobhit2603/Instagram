@@ -143,7 +143,7 @@ const Notifications = () => {
                                                         whileHover={{ scale: 1.1 }}
                                                         whileTap={{ scale: 0.9 }}
                                                         onClick={() => onAccept(request._id)}
-                                                        className="p-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-full transition-colors flex items-center justify-center"
+                                                        className="p-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-full transition-colors flex items-center justify-center cursor-pointer"
                                                         title="Accept"
                                                     >
                                                         <Check className="w-4 h-4" />
@@ -152,7 +152,7 @@ const Notifications = () => {
                                                         whileHover={{ scale: 1.1 }}
                                                         whileTap={{ scale: 0.9 }}
                                                         onClick={() => onReject(request._id)}
-                                                        className="p-2.5 bg-neutral-800 hover:bg-red-500/20 hover:text-red-500 text-neutral-400 rounded-full transition-colors flex items-center justify-center"
+                                                        className="p-2.5 bg-neutral-800 hover:bg-red-500/20 hover:text-red-500 text-neutral-400 rounded-full transition-colors flex items-center justify-center cursor-pointer"
                                                         title="Decline"
                                                     >
                                                         <X className="w-4 h-4" />

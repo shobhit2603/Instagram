@@ -8,7 +8,7 @@ import Search from "../features/users/pages/Search";
 import CreatePost from "../features/posts/pages/CreatePost";
 import { ProtectedRoute, GuestRoute } from "./ProtectedRoute";
 import Notifications from "../features/users/pages/Notifications";
-import Messages from "../features/users/pages/Messages";
+import Messages from "../features/chats/pages/Messages";
 
 const router = createBrowserRouter([
   {
