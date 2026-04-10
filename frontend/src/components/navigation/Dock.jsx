@@ -106,14 +106,32 @@ const Dock = () => {
         <div className="mb-12 px-2 flex items-center justify-center xl:justify-start">
           <Link
             to="/"
-            className="text-white hover:opacity-80 transition-opacity flex items-center gap-3"
+            className="text-white hover:opacity-80 transition-opacity outline-none"
           >
-            <p
-              className="hidden xl:block text-2xl tracking-tighter"
-              style={{ fontFamily: "var(--font-instagram, sans-serif)" }}
+            <motion.div
+              className="flex items-center gap-3"
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
             >
-              Insta<span className="text-purple-500">Gram</span>
-            </p>
+              <motion.img
+                src="/instagram.png"
+                alt="logo"
+                className="w-7 h-7"
+                variants={{
+                  initial: { scale: 1, rotate: 0 },
+                  hover: { scale: 1.15, rotate: -8 },
+                  tap: { scale: 0.9 }
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              />
+              <p
+                className="hidden xl:block text-2xl tracking-tighter"
+                style={{ fontFamily: "var(--font-instagram, sans-serif)" }}
+              >
+                Insta<span className="text-purple-500">Gram</span>
+              </p>
+            </motion.div>
           </Link>
         </div>
 
