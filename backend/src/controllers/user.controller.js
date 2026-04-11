@@ -18,6 +18,8 @@ export const searchUser = async (req, res) => {
       });
     }
 
+    const currentUser = await User.findById(req.user.id);
+
     const users = await User.aggregate([
       {
         $search: {
@@ -49,14 +51,14 @@ export const searchUser = async (req, res) => {
         $lookup: {
           from: "follows",
           as: "followDoc",
-          let: { searchUserId: "$_id" },
+          let: { searchUserUsername: "$username" },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ["$followee", "$$searchUserId"] },
-                    { $eq: ["$follower", new mongoose.Types.ObjectId(req.user.id)] },
+                    { $eq: ["$followee", "$$searchUserUsername"] },
+                    { $eq: ["$follower", currentUser.username] },
                   ],
                 },
               },
@@ -117,8 +119,9 @@ export const followUser = async (req, res) => {
     const currentUserId = req.user.id;
 
     const isUserExist = await User.findById(userId);
+    const currentUser = await User.findById(currentUserId);
 
-    if (!isUserExist) {
+    if (!isUserExist || !currentUser) {
       return res.status(404).json({
         message: "User not found",
         success: false,
@@ -133,8 +136,8 @@ export const followUser = async (req, res) => {
     }
 
     const alreadyFollowing = await Follow.findOne({
-      follower: currentUserId,
-      followee: userId,
+      follower: currentUser.username,
+      followee: isUserExist.username,
     });
 
     if (alreadyFollowing) {
@@ -153,8 +156,8 @@ export const followUser = async (req, res) => {
     const status = isUserExist.isPrivate ? "pending" : "accepted";
 
     const follow = await Follow.create({
-      follower: currentUserId,
-      followee: userId,
+      follower: currentUser.username,
+      followee: isUserExist.username,
       status,
     });
 
@@ -177,11 +180,41 @@ export const followUser = async (req, res) => {
 export const getFollowRequests = async (req, res) => {
   try {
     const loggedInUserId = req.user.id;
+    const currentUser = await User.findById(loggedInUserId);
 
-    const requests = await Follow.find({
-      followee: loggedInUserId,
-      status: "pending",
-    }).populate("follower", "username fullName profileImage");
+    const requests = await Follow.aggregate([
+      {
+        $match: {
+          followee: currentUser.username,
+          status: "pending",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "follower",
+          foreignField: "username",
+          as: "followerDetails",
+        },
+      },
+      {
+        $unwind: "$followerDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          follower: {
+            _id: "$followerDetails._id",
+            username: "$followerDetails.username",
+            fullName: "$followerDetails.fullName",
+            profileImage: "$followerDetails.profileImage",
+          },
+        },
+      },
+    ]);
 
     return res.status(200).json({
       message: "Follow requests fetched successfully",
@@ -202,11 +235,12 @@ export const acceptFollowRequest = async (req, res) => {
   try {
     const { requestId } = req.params;
     const loggedInUserId = req.user.id;
+    const currentUser = await User.findById(loggedInUserId);
 
     const followRequest = await Follow.findOne({
       _id: requestId,
       status: "pending",
-      followee: loggedInUserId,
+      followee: currentUser.username,
     });
 
     if (!followRequest) {
@@ -237,11 +271,12 @@ export const rejectFollowRequest = async (req, res) => {
   try {
     const { requestId } = req.params;
     const loggedInUserId = req.user.id;
+    const currentUser = await User.findById(loggedInUserId);
 
     const followRequest = await Follow.findOneAndDelete({
       _id: requestId,
       status: "pending",
-      followee: loggedInUserId,
+      followee: currentUser.username,
     });
 
     if (!followRequest) {
@@ -281,8 +316,8 @@ export const getProfile = async (req, res) => {
 
     const posts = await Post.find({ author: userId }).sort({ createdAt: -1 });
 
-    const followersCount = await Follow.countDocuments({ followee: userId, status: "accepted" });
-    const followingCount = await Follow.countDocuments({ follower: userId, status: "accepted" });
+    const followersCount = await Follow.countDocuments({ followee: user.username, status: "accepted" });
+    const followingCount = await Follow.countDocuments({ follower: user.username, status: "accepted" });
 
     return res.status(200).json({
       success: true,
@@ -350,8 +385,8 @@ export const updateProfile = async (req, res) => {
 
     await user.save();
 
-    const followersCount = await Follow.countDocuments({ followee: userId, status: "accepted" });
-    const followingCount = await Follow.countDocuments({ follower: userId, status: "accepted" });
+    const followersCount = await Follow.countDocuments({ followee: user.username, status: "accepted" });
+    const followingCount = await Follow.countDocuments({ follower: user.username, status: "accepted" });
 
     return res.status(200).json({
       success: true,
