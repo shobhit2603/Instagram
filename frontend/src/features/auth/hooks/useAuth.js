@@ -1,5 +1,5 @@
 import { register, login, getMe, logout } from "../service/auth.api";
-import { setUser } from "../auth.slice";
+import { setUser, setAuthChecked } from "../auth.slice";
 import { useDispatch } from "react-redux";
 
 export const useAuth = () => {
@@ -23,9 +23,15 @@ export const useAuth = () => {
   }
 
   async function handleGetMe() {
-    const data = await getMe();
-    dispatch(setUser(data.user));
-    return data;
+    try {
+      const data = await getMe();
+      dispatch(setUser(data.user));
+      return data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(setAuthChecked(true));
+    }
   }
 
   async function handleLogout() {
