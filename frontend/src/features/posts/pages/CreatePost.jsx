@@ -247,7 +247,7 @@ const CreatePost = () => {
                   </p>
                   <p className="text-neutral-600 text-xs text-center max-w-xs">
                     Images (JPG, PNG, WebP, GIF) and Videos (MP4, WebM) up to
-                    30MB
+                    20MB
                   </p>
 
                   {/* File type badges */}
@@ -520,7 +520,7 @@ const CreatePost = () => {
       >
         <p className="text-xs text-neutral-600">
           Tip: You can upload up to {MAX_FILES} images or videos per post • Max
-          30MB each
+          20MB each
         </p>
       </motion.div>
     </div>
