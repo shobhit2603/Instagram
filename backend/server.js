@@ -1,12 +1,12 @@
-import app from './src/app.js';
 import { config } from './src/config/config.js';
 import { connectDB } from './src/config/databse.js';
+import server from './src/socket/app.socket.js';
 
 const PORT = config.PORT;
 
 try {
     await connectDB();
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 } catch (error) {
