@@ -1,67 +1,79 @@
 import followModel from "../models/follow.model.js";
+import User from "../models/user.model.js";
 
 export const getUsers = async (req, res) => {
-  const loggedInUserId = req.user.id;
+  try {
+    const loggedInUserId = req.user.id;
+    const currentUser = await User.findById(loggedInUserId);
 
-  const users = await followModel.aggregate(
-    [
-      {
-        $match: {
-          $or: [{ followee: loggedInUserId }, { follower: loggedInUserId }],
-          status: "accepted",
+    if (!currentUser) {
+      return res.status(404).json({ message: "User not found", success: false });
+    }
+
+    const currentUsername = currentUser.username;
+
+    const users = await followModel.aggregate(
+      [
+        {
+          $match: {
+            $or: [{ followee: currentUsername }, { follower: currentUsername }],
+            status: "accepted",
+          },
         },
-      },
-      {
-        $addFields: {
-          user: {
-            $cond: {
-              if: {
-                $eq: ["$follower", loggedInUserId],
+        {
+          $addFields: {
+            user: {
+              $cond: {
+                if: {
+                  $eq: ["$follower", currentUsername],
+                },
+                then: "$followee",
+                else: "$follower",
               },
-              then: "$followee",
-              else: "$follower",
             },
           },
         },
-      },
-      {
-        $group: {
-          _id: "$user",
+        {
+          $group: {
+            _id: "$user",
+          },
         },
-      },
-      {
-        $addFields: {
-          userObjId: { $toObjectId: "$_id" },
+        {
+          $lookup: {
+            from: "users",
+            localField: "_id",
+            foreignField: "username",
+            as: "userDetails",
+          },
         },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "userObjId",
-          foreignField: "_id",
-          as: "userDetails",
+        {
+          $unwind: {
+            path: "$userDetails",
+            preserveNullAndEmptyArrays: false,
+          },
         },
-      },
-      {
-        $unwind: {
-          path: "$userDetails",
-          preserveNullAndEmptyArrays: false,
+        {
+          $project: {
+            _id: "$userDetails._id",
+            username: "$userDetails.username",
+            profilePicture: "$userDetails.profileImage",
+          },
         },
-      },
-      {
-        $project: {
-          _id: "$userDetails._id",
-          username: "$userDetails.username",
-          profilePicture: "$userDetails.profileImage",
-        },
-      },
-    ],
-    { maxTimeMS: 60000, allowDiskUse: true },
-  );
+      ],
+      { maxTimeMS: 60000, allowDiskUse: true },
+    );
 
-  return res.status(200).json({
-    message: "Users fetched successfully",
-    success: true,
-    users,
-  });
+    return res.status(200).json({
+      message: "Users fetched successfully",
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.error("Error in getUsers:", error);
+    return res.status(500).json({
+      message: "Failed to fetch users",
+      success: false,
+      error: error.message,
+    });
+  }
 };

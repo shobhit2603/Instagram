@@ -8,11 +8,11 @@ const chatSlice = createSlice({
   },
   reducers: {
     setChats: (state, action) => {
-      const users = action.payload;
+      const users = action.payload || [];
       state.chats = users.reduce((acc, user) => {
         acc[user._id] = user;
         return acc;
-      }, state.chats);
+      }, {});
     },
     setCurrentChatId: (state, action) => {
       state.currentChatId = action.payload;
