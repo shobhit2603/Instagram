@@ -14,9 +14,6 @@ const Register = () => {
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 selection:bg-purple-500/30">
       <div className="flex flex-col md:flex-row bg-neutral-900 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden max-w-4xl w-full border border-neutral-800">
         <div className="md:w-1/2 p-10 lg:p-12 bg-neutral-950/50 text-white flex-col justify-between relative overflow-hidden hidden md:flex border-r border-neutral-800">
-          <div className="absolute top-[-20%] right-[-10%] w-72 h-72 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
-          <div className="absolute bottom-[-10%] left-[-20%] w-80 h-80 rounded-full bg-pink-500 opacity-20 blur-3xl"></div>
-
           <div className="z-10">
             <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">
               Insta<span className="text-purple-600">Gram</span>
@@ -146,7 +143,7 @@ const Register = () => {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 text-white font-medium py-3 px-4 rounded-xl shadow-[0_8px_20px_-6px_rgba(168,85,247,0.4)] transform transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full bg-linear-to-bl from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white font-medium py-3 px-4 rounded-xl shadow-[0_8px_20px_-6px_rgba(168,85,247,0.4)] transform transition-colors duration-300 active:scale-[0.98] cursor-pointer"
                 >
                   Sign Up
                 </button>
@@ -161,7 +158,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={handleGoogleAuth}
-                className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2.5 px-4 rounded-xl transition-colors outline-none cursor-pointer border border-neutral-700 hover:border-neutral-600"
+                className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2.5 px-4 rounded-xl transition-colors duration-300 outline-none cursor-pointer border border-neutral-700 hover:border-neutral-600"
               >
                 <svg
                   width="20"
