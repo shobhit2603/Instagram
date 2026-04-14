@@ -1,27 +1,30 @@
-import app from "../app.js";
 import { Server } from "socket.io";
-import http from "http";
+import { parse } from "cookie";
 
-const server = http.createServer(app);
-
-export const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
-
-io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
+export default function (server) {
+  const io = new Server(server, {
+    cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+      credentials: true,
+    },
   });
 
-  socket.on("message", (msg) => {
-    socket.broadcast.emit("message", msg);
+  io.use((socket, next) => {
+    const cookie = socket.handshake.headers.cookie;
+    console.log(parse(cookie));
+    next();
   });
-});
 
-export default server;
+  io.on("connection", (socket) => {
+    console.log("A user connected:", socket.id);
+
+    socket.on("send_message", (data) => {
+      console.log(data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("User disconnected");
+    });
+  });
+}

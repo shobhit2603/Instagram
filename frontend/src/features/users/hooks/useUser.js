@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useCallback } from "react"; // Import useCallback
-import { setProfile, setUserPosts, setFollowRequests, removeFollowRequest, setLoading, setError } from "../user.slice";
+import { setProfile, setUserPosts, setFollowRequests, removeFollowRequest, setLoading, setError } from "../state/user.slice";
 import { searchUser, getProfile, updateProfile, followUser, getFollowRequests, acceptFollowRequest, rejectFollowRequest } from "../service/user.api";
-import { setUser } from "../../auth/auth.slice";
+import { setUser } from "../../auth/state/auth.slice";
 
 export const useUser = () => {
   const dispatch = useDispatch();

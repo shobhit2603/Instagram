@@ -1,6 +1,6 @@
 import { getChatUsers } from "../service/chat.api";
 import { useDispatch } from "react-redux";
-import { setChats, setCurrentChatId } from "../chat.slice";
+import { setChats, setCurrentChatId } from "../state/chat.slice";
 
 export const useChat = () => {
   const dispatch = useDispatch();

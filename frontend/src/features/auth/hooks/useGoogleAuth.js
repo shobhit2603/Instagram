@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../auth.slice";
+import { setUser } from "../state/auth.slice";
 import { getMe } from "../service/auth.api";
 
 const useGoogleAuth = () => {

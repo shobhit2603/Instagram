@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setPosts } from "../posts.slice.js";
+import { setPosts } from "../state/posts.slice.js";
 import { getPosts, createPost } from "../service/post.api.js";
 
 export const usePost = () => {
