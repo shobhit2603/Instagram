@@ -1,27 +1,45 @@
 import { useDispatch } from "react-redux";
-import { getChatUsers } from "../service/chat.api";
-import { setChats, setCurrentChatId, appendMessage } from "../state/chat.slice";
+import { getChatUsers, getMessages } from "../service/chat.api";
+import {
+  setChats,
+  setCurrentChatId,
+  setMessages,
+  appendMessage,
+} from "../state/chat.slice";
 
 export const useChat = () => {
   const dispatch = useDispatch();
 
   async function handleGetChatUsers() {
-    const data = await getChatUsers();
-    console.log(data.users);
-    dispatch(setChats(data.users));
+    try {
+      const data = await getChatUsers();
+      dispatch(setChats(data.users));
+    } catch (error) {
+      console.error("Failed to fetch chat users:", error);
+    }
   }
 
   function handleSetCurrentChatId(userId) {
     dispatch(setCurrentChatId(userId));
   }
 
-  function handleAppendMessage({ message, receiverId, senderId, currentChatId }) {
-    dispatch(appendMessage({ message, receiverId, senderId, currentChatId }));
+  async function handleGetMessages(userId) {
+    try {
+      const data = await getMessages(userId);
+      dispatch(setMessages({ userId, messages: data.messages }));
+    } catch (error) {
+      console.error("Failed to fetch messages:", error);
+    }
+  }
+
+  function handleAppendMessage({ chatId, message }) {
+    dispatch(appendMessage({ chatId, message }));
   }
 
   return {
     handleGetChatUsers,
     handleSetCurrentChatId,
+    handleGetMessages,
     handleAppendMessage,
   };
 };

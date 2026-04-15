@@ -9,6 +9,6 @@ export const store = configureStore({
     auth: authReducer,
     posts: postsReducer,
     user: userReducer,
-    chat: chatReducer,
+    chats: chatReducer,
   },
 });

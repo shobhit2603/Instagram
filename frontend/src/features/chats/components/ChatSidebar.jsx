@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useChat } from "../hooks/useChat";
 // eslint-disable-next-line no-unused-vars
@@ -6,13 +5,8 @@ import { motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
 
 const ChatSidebar = () => {
-  const { handleGetChatUsers, handleSetCurrentChatId } = useChat();
-  const { chats, currentChatId } = useSelector((state) => state.chat);
-
-  useEffect(() => {
-    handleGetChatUsers();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { handleSetCurrentChatId } = useChat();
+  const { chats, currentChatId } = useSelector((state) => state.chats);
 
   const users = Object.values(chats || {});
 
@@ -66,7 +60,7 @@ const ChatSidebar = () => {
                     className={`text-[17px] transition-all duration-300 truncate ${
                       isActive
                         ? "text-white font-medium"
-                        : "text-neutral-200 font"
+                        : "text-neutral-200"
                     }`}
                   >
                     {user.username}
