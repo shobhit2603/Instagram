@@ -8,17 +8,35 @@ const chatSlice = createSlice({
   },
   reducers: {
     setChats: (state, action) => {
-      const users = action.payload || [];
+      const users = action.payload;
       state.chats = users.reduce((acc, user) => {
-        acc[user._id] = user;
+        acc[user._id] = { ...user, messages: [] };
         return acc;
-      }, {});
+      }, state.chats);
     },
     setCurrentChatId: (state, action) => {
       state.currentChatId = action.payload;
     },
+    appendMessage: (state, action) => {
+      const { message, receiverId, senderId, currentChatId } = action.payload;
+
+      /**
+            * message : hello neha
+            * receiver: neha_js
+            * sender:"ritu_dev"
+            * currentChatId:"ritu_dev"
+            */
+
+      console.log(action.payload);
+
+      state.chats[currentChatId].messages.push({
+        message,
+        receiver: receiverId,
+        sender: senderId,
+      });
+    }
   },
 });
 
-export const { setChats, setCurrentChatId } = chatSlice.actions;
+export const { setChats, setCurrentChatId, appendMessage } = chatSlice.actions;
 export default chatSlice.reducer;

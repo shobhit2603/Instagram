@@ -21,7 +21,7 @@ const ChatSidebar = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="hidden md:flex flex-col fixed right-0 top-0 h-screen bg-neutral-950/40 backdrop-blur-3xl border-l border-neutral-800/80 z-40 w-80 lg:w-[380px] pt-8 pb-6 px-6"
+      className="hidden md:flex flex-col fixed right-0 top-0 h-screen bg-neutral-950/40 backdrop-blur-3xl border-l border-neutral-800/80 z-40 w-80 lg:w-95 pt-8 pb-6 px-6"
     >
       <div className="mb-10 px-1 flex items-center justify-between">
         <h1 className="text-2xl text-white tracking-wide">

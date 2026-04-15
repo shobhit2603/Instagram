@@ -1,11 +1,7 @@
 import { Server } from "socket.io";
 import { parse } from "cookie";
-
-const userSocketMap = {};
-
-export const getReceiverSocketId = (receiverId) => {
-  return userSocketMap[receiverId];
-};
+import jwt from "jsonwebtoken";
+import { config } from "../config/config.js"
 
 export default function (server) {
   const io = new Server(server, {
@@ -18,32 +14,40 @@ export default function (server) {
 
   io.use((socket, next) => {
     const cookie = socket.handshake.headers.cookie;
-    if (cookie) {
-      const parsedCookies = parse(cookie);
-      const userId = socket.handshake.auth.userId;
-      if (userId) {
-        socket.userId = userId;
-        return next();
-      }
+
+
+    if (!cookie) {
+      return next(new Error("Authentication error: No token provided"));
     }
-    return next(new Error("Authentication error"));
+
+    const token = parse(cookie).token;
+
+    try {
+      const decoded = jwt.verify(token, config.jwtSecret);
+      socket.user = decoded;
+      next();
+    } catch (err) {
+      return next(err);
+    }
   });
 
   io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id, "User ID:", socket.userId);
+    console.log('A user connected:', socket.id);
+    console.log(socket.user);
 
-    if (socket.userId) {
-      userSocketMap[socket.userId] = socket.id;
-    }
+    socket.join(socket.user.id);
 
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    socket.on('send_message', data => {
+      const { message, receiver } = data;
+      io.to(receiver).emit('receive_message', {
+        message,
+        sender: socket.user.id,
+      });
+    });
 
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-      if (socket.userId) {
-        delete userSocketMap[socket.userId];
-      }
-      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    socket.on('disconnect', () => {
+      console.log('A user disconnected:', socket.id);
+      socket.leave(socket.user.id);
     });
   });
 }
