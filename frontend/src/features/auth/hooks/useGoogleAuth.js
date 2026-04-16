@@ -40,7 +40,7 @@ const useGoogleAuth = () => {
     
     // Open the Google Auth popup route
     window.open(
-      "http://localhost:3000/api/auth/google", 
+      "/api/auth/google", 
       "Google Auth",
       `width=${width},height=${height},left=${left},top=${top},display=popup`
     );

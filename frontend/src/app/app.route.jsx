@@ -9,6 +9,7 @@ import CreatePost from "../features/posts/pages/CreatePost";
 import { ProtectedRoute, GuestRoute } from "./ProtectedRoute";
 import Notifications from "../features/users/pages/Notifications";
 import Messages from "../features/chats/pages/Messages";
+import NotFound from "./NotFound";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,12 @@ const router = createBrowserRouter([
         element: <Register />,
       },
     ],
+  },
+
+  // 404 Catch-all
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

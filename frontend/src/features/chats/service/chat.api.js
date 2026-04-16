@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:3000/api/chats";
+const URL = "/api/chats";
 
 export const getChatUsers = async () => {
   const response = await axios.get(`${URL}/users`, {

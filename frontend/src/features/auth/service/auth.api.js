@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function register({ username, email, fullname, password }) {
   const response = await axios.post(
-    "http://localhost:3000/api/auth/register",
+    "/api/auth/register",
     {
       username,
       email,
@@ -20,7 +20,7 @@ export async function login({ usernameOrEmail, password }) {
   const isEmail = emailRegex.test(usernameOrEmail);
 
   const response = await axios.post(
-    "http://localhost:3000/api/auth/login",
+    "/api/auth/login",
     {
       [isEmail ? "email" : "username"]: usernameOrEmail,
       password,
@@ -31,7 +31,7 @@ export async function login({ usernameOrEmail, password }) {
 }
 
 export async function getMe() {
-  const response = await axios.get("http://localhost:3000/api/auth/me", {
+  const response = await axios.get("/api/auth/me", {
     withCredentials: true,
   });
   return response.data;
@@ -39,7 +39,7 @@ export async function getMe() {
 
 export async function logout() {
   const response = await axios.post(
-    "http://localhost:3000/api/auth/logout",
+    "/api/auth/logout",
     {},
     { withCredentials: true }
   );

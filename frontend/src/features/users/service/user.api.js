@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function searchUser(q) {
-  const response = await axios.get("http://localhost:3000/api/users/search", {
+  const response = await axios.get("/api/users/search", {
     params: { q },
     withCredentials: true,
   });
@@ -9,7 +9,7 @@ export async function searchUser(q) {
 }
 
 export async function getProfile() {
-  const response = await axios.get("http://localhost:3000/api/users/profile", {
+  const response = await axios.get("/api/users/profile", {
     withCredentials: true,
   });
   return response.data;
@@ -17,7 +17,7 @@ export async function getProfile() {
 
 export async function updateProfile(formData) {
   const response = await axios.put(
-    "http://localhost:3000/api/users/profile",
+    "/api/users/profile",
     formData,
     {
       withCredentials: true,
@@ -30,28 +30,28 @@ export async function updateProfile(formData) {
 }
 
 export async function followUser(userId) {
-  const response = await axios.post(`http://localhost:3000/api/users/follow/${userId}`, {}, {
+  const response = await axios.post(`/api/users/follow/${userId}`, {}, {
     withCredentials: true,
   });
   return response.data;
 }
 
 export async function getFollowRequests() {
-  const response = await axios.get("http://localhost:3000/api/users/follow-requests", {
+  const response = await axios.get("/api/users/follow-requests", {
     withCredentials: true,
   });
   return response.data;
 }
 
 export async function acceptFollowRequest(requestId) {
-  const response = await axios.patch(`http://localhost:3000/api/users/follow-requests/${requestId}/accept`, {}, {
+  const response = await axios.patch(`/api/users/follow-requests/${requestId}/accept`, {}, {
     withCredentials: true,
   });
   return response.data;
 }
 
 export async function rejectFollowRequest(requestId) {
-  const response = await axios.delete(`http://localhost:3000/api/users/follow-requests/${requestId}/reject`, {
+  const response = await axios.delete(`/api/users/follow-requests/${requestId}/reject`, {
     withCredentials: true,
   });
   return response.data;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getPosts() {
-  const response = await axios.get("http://localhost:3000/api/posts", {
+  const response = await axios.get("/api/posts", {
     withCredentials: true,
   });
   return response.data;
@@ -9,7 +9,7 @@ export async function getPosts() {
 
 export async function createPost(formData, onUploadProgress) {
   const response = await axios.post(
-    "http://localhost:3000/api/posts",
+    "/api/posts",
     formData,
     {
       withCredentials: true,
