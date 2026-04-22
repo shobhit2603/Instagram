@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   }),
@@ -44,8 +44,10 @@ app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 app.use("/api/chats", chatRouter);
 
-app.get("/", (req, res) => {
-  res.send("Welcome to Instagram Backend API");
+import path from "path";
+
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.resolve("public", "index.html"));
 });
 
 export default app;

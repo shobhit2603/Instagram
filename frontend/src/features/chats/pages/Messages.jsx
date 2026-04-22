@@ -8,8 +8,6 @@ import ChatWindow from "../components/ChatWindow";
 import { motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
 
-const SOCKET_URL = "http://localhost:3000";
-
 const Messages = () => {
   const { handleGetChatUsers, handleAppendMessage, handleSetCurrentChatId } =
     useChat();
@@ -21,7 +19,7 @@ const Messages = () => {
   useEffect(() => {
     if (!loggedInUser) return;
 
-    const socket = io(SOCKET_URL, {
+    const socket = io("/", {
       withCredentials: true,
     });
     socketRef.current = socket;

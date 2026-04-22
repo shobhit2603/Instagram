@@ -217,13 +217,8 @@ export async function googleAuth(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // Send HTML block to interface with the popup window successfully
-    res.send(`
-      <script>
-        window.opener.postMessage("google-auth-success", "http://localhost:5173");
-        window.close();
-      </script>
-    `);
+    // Redirect to frontend app directly instead of closing popup
+    res.redirect("/");
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
