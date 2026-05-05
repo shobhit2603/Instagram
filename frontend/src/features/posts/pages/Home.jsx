@@ -17,7 +17,7 @@ const Home = () => {
     <div className="pt-6 sm:pt-10 px-0 sm:px-4 max-w-lg mx-auto w-full">
       {/* Mobile Header (Hidden on Desktop) */}
       <header className="flex items-center justify-between mb-6 px-4 sm:hidden">
-        <h1 className="text-2xl tracking-tighter" style={{ fontFamily: 'var(--font-instagram, sans-serif)' }}>Instagram</h1>
+        <h1 className="text-2xl tracking-tighter" style={{ fontFamily: 'var(--font-instagram, sans-serif)' }}>FlexIt</h1>
       </header>
       
       {loading ? (

@@ -17,7 +17,7 @@ const Login = () => {
         <div className="md:w-1/2 p-10 lg:p-12 bg-neutral-950/50 text-white flex-col justify-between relative overflow-hidden hidden md:flex border-r border-neutral-800">
           <div className="z-10">
             <h1 className="text-4xl lg:text-5xl tracking-tight mb-2">
-              Insta<span className="text-purple-600">Gram</span>
+              Flex<span className="text-purple-600">It</span>
             </h1>
             <p className="text-neutral-400 text-lg font-medium">
               Welcome back.

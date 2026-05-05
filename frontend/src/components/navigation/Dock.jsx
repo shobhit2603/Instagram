@@ -129,7 +129,7 @@ const Dock = () => {
                 className="hidden xl:block text-2xl tracking-tighter"
                 style={{ fontFamily: "var(--font-instagram, sans-serif)" }}
               >
-                Insta<span className="text-purple-500">Gram</span>
+                Flex<span className="text-purple-500">It</span>
               </p>
             </motion.div>
           </Link>
