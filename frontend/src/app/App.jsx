@@ -9,7 +9,9 @@ const App = () => {
 
   useEffect(() => {
     handleGetMe();
-  }, [handleGetMe]);
+    // Run once on app bootstrap to restore the session from the auth cookie.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
