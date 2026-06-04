@@ -3,10 +3,12 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { config } from "../config/config.js";
 
+const isProduction = process.env.NODE_ENV === "production" || !config.FRONTEND_URL.includes("localhost");
+
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "strict",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 

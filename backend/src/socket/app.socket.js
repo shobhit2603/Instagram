@@ -7,7 +7,7 @@ import Message from "../models/message.model.js";
 export default function (server) {
   const io = new Server(server, {
     cors: {
-      origin: true,
+      origin: config.FRONTEND_URL,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       credentials: true,
     },
