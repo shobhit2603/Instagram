@@ -25,6 +25,7 @@
 **FlexIt** is a full-featured, responsive, production-ready social media platform inspired by Instagram. It provides users with a fluid, modern interface for sharing experiences, building a profile, and connecting with friends.
 
 Key capabilities include:
+
 - **Rich Social Feed & Interaction**: Share image and video posts (supporting carousel uploads of up to 7 media files), double-tap to like with interactive bubble pop animations, and follow other users.
 - **Privacy & Request Control**: Users can toggle between Public and Private account settings. Private profiles trigger follow requests that can be accepted or rejected in a dedicated notification dashboard.
 - **Real-Time Direct Messaging**: Seamless private chatting powered by a secure Socket.io connection. Conversational threads update instantly without page reloads.
@@ -51,29 +52,31 @@ The application is built with a modular, **feature-sliced frontend architecture*
 ## 🏗️ Tech Stack
 
 ### Frontend (`/frontend`)
-| Technology | Purpose |
-|---|---|
-| React 19 | UI component architecture and state bindings |
-| Vite 8 | Fast module bundler and development server |
-| Redux Toolkit | Centralized global store management (auth state, chat data, user profiles) |
-| Tailwind CSS v4 | Native utility-first stylesheet layouts |
-| Framer Motion | High-performance CSS micro-animations, slide transitions, and double-tap heart pops |
-| Lucide React | High-quality, clean vector icon pack |
-| Axios | Client-side HTTP requests with interceptors and credential-sharing |
-| Socket.io-client | Real-time websocket communication interface |
+
+| Technology       | Purpose                                                                             |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| React 19         | UI component architecture and state bindings                                        |
+| Vite 8           | Fast module bundler and development server                                          |
+| Redux Toolkit    | Centralized global store management (auth state, chat data, user profiles)          |
+| Tailwind CSS v4  | Native utility-first stylesheet layouts                                             |
+| Framer Motion    | High-performance CSS micro-animations, slide transitions, and double-tap heart pops |
+| Lucide React     | High-quality, clean vector icon pack                                                |
+| Axios            | Client-side HTTP requests with interceptors and credential-sharing                  |
+| Socket.io-client | Real-time websocket communication interface                                         |
 
 ### Backend (`/backend`)
-| Technology | Purpose |
-|---|---|
-| Node.js + Express 5 | REST API routers, controllers, and socket orchestration |
-| MongoDB + Mongoose | NoSQL Document Database and ODM schema modelings |
-| Socket.io | Full-duplex websocket server |
-| Passport.js | Google OAuth 2.0 social authentication strategy |
-| ImageKit Node SDK | Programmatic media uploads, image resizing, and video delivery |
-| JSONWebToken | Secure stateless token signing and verification |
-| Cookie-Parser | Express cookie extraction for JWTs |
-| Multer | Multipart file upload parsing (memory storage) |
-| Express Validator | Server-side request body sanitation and validation |
+
+| Technology          | Purpose                                                        |
+| ------------------- | -------------------------------------------------------------- |
+| Node.js + Express 5 | REST API routers, controllers, and socket orchestration        |
+| MongoDB + Mongoose  | NoSQL Document Database and ODM schema modelings               |
+| Socket.io           | Full-duplex websocket server                                   |
+| Passport.js         | Google OAuth 2.0 social authentication strategy                |
+| ImageKit Node SDK   | Programmatic media uploads, image resizing, and video delivery |
+| JSONWebToken        | Secure stateless token signing and verification                |
+| Cookie-Parser       | Express cookie extraction for JWTs                             |
+| Multer              | Multipart file upload parsing (memory storage)                 |
+| Express Validator   | Server-side request body sanitation and validation             |
 
 ---
 
@@ -120,39 +123,39 @@ FlexIt/
 
 ### 🔐 Authentication — `/api/auth`
 
-| Method | Endpoint | Authorization | Description |
-|--------|----------|---------------|-------------|
-| `POST` | `/register` | Public | Register a new local account (validates name, email, password) |
-| `POST` | `/login` | Public | Authenticates credentials locally and issues JWT HTTP cookie |
-| `POST` | `/logout` | Bearer/Cookie | Clears auth tokens and logs out user session |
-| `GET`  | `/me` | Bearer/Cookie | Resolves profile details of currently authenticated user |
-| `GET`  | `/google` | Public | Redirects user to Google OAuth credentials screen |
+| Method | Endpoint           | Authorization   | Description                                                               |
+| ------ | ------------------ | --------------- | ------------------------------------------------------------------------- |
+| `POST` | `/register`        | Public          | Register a new local account (validates name, email, password)            |
+| `POST` | `/login`           | Public          | Authenticates credentials locally and issues JWT HTTP cookie              |
+| `POST` | `/logout`          | Bearer/Cookie   | Clears auth tokens and logs out user session                              |
+| `GET`  | `/me`              | Bearer/Cookie   | Resolves profile details of currently authenticated user                  |
+| `GET`  | `/google`          | Public          | Redirects user to Google OAuth credentials screen                         |
 | `GET`  | `/google/callback` | Google Redirect | Processes Google OAuth profile, registers/logs in user, issues JWT cookie |
 
 ### 📸 Posts — `/api/posts`
 
-| Method | Endpoint | Authorization | Description |
-|--------|----------|---------------|-------------|
-| `POST` | `/` | Bearer/Cookie | Creates post with up to 7 image/video attachments (multipart-form upload) |
-| `GET`  | `/` | Public | Fetches all social feed posts |
+| Method | Endpoint | Authorization | Description                                                               |
+| ------ | -------- | ------------- | ------------------------------------------------------------------------- |
+| `POST` | `/`      | Bearer/Cookie | Creates post with up to 7 image/video attachments (multipart-form upload) |
+| `GET`  | `/`      | Public        | Fetches all social feed posts                                             |
 
 ### 👤 User Management & Follows — `/api/users`
 
-| Method | Endpoint | Authorization | Description |
-|--------|----------|---------------|-------------|
-| `GET`  | `/search` | Bearer/Cookie | Searches profiles by username query |
-| `POST` | `/follow/:userId` | Bearer/Cookie | Follow/Unfollow a user (triggers pending request if account is private) |
-| `GET`  | `/follow-requests` | Bearer/Cookie | Fetches incoming follow requests for private profiles |
-| `PATCH`| `/follow-requests/:requestId/accept` | Bearer/Cookie | Accepts follow request |
-| `DELETE`| `/follow-requests/:requestId/reject` | Bearer/Cookie | Rejects follow request |
-| `GET`  | `/profile` | Bearer/Cookie | Retrieves profile and posts of the authenticated user |
-| `PUT`  | `/profile` | Bearer/Cookie | Updates user settings (username, bio, profile image, public/private status) |
+| Method   | Endpoint                             | Authorization | Description                                                                 |
+| -------- | ------------------------------------ | ------------- | --------------------------------------------------------------------------- |
+| `GET`    | `/search`                            | Bearer/Cookie | Searches profiles by username query                                         |
+| `POST`   | `/follow/:userId`                    | Bearer/Cookie | Follow/Unfollow a user (triggers pending request if account is private)     |
+| `GET`    | `/follow-requests`                   | Bearer/Cookie | Fetches incoming follow requests for private profiles                       |
+| `PATCH`  | `/follow-requests/:requestId/accept` | Bearer/Cookie | Accepts follow request                                                      |
+| `DELETE` | `/follow-requests/:requestId/reject` | Bearer/Cookie | Rejects follow request                                                      |
+| `GET`    | `/profile`                           | Bearer/Cookie | Retrieves profile and posts of the authenticated user                       |
+| `PUT`    | `/profile`                           | Bearer/Cookie | Updates user settings (username, bio, profile image, public/private status) |
 
 ### 💬 Real-Time Chats — `/api/chats`
 
-| Method | Endpoint | Authorization | Description |
-|--------|----------|---------------|-------------|
-| `GET`  | `/users` | Bearer/Cookie | Fetches all active chat user connections |
+| Method | Endpoint            | Authorization | Description                                               |
+| ------ | ------------------- | ------------- | --------------------------------------------------------- |
+| `GET`  | `/users`            | Bearer/Cookie | Fetches all active chat user connections                  |
 | `GET`  | `/messages/:userId` | Bearer/Cookie | Retrieves private conversation history with a target user |
 
 ---
@@ -162,6 +165,7 @@ FlexIt/
 WebSocket connection requires a valid HTTP JWT token cookie. Under the hood, Socket.io parses incoming cookies to authenticate connections.
 
 ### Client-to-Server Events
+
 - `send_message` (data): Emits a private message to a specific receiver.
   ```json
   {
@@ -171,6 +175,7 @@ WebSocket connection requires a valid HTTP JWT token cookie. Under the hood, Soc
   ```
 
 ### Server-to-Client Events
+
 - `receive_message` (payload): Received when another user sends a message.
   ```json
   {
@@ -189,6 +194,7 @@ WebSocket connection requires a valid HTTP JWT token cookie. Under the hood, Soc
 ## ⚙️ Local Setup
 
 ### Prerequisites
+
 - Node.js (version 20+)
 - MongoDB Atlas or a local MongoDB database instance
 - Google Cloud Console credentials (for Google OAuth client ID and Secret)
@@ -199,18 +205,21 @@ WebSocket connection requires a valid HTTP JWT token cookie. Under the hood, Soc
 ### Method 1: Running Manually (Locally)
 
 #### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/shobhit2603/FlexIt.git
 cd FlexIt
 ```
 
 #### 2. Set Up the Backend Server
+
 ```bash
 cd backend
 npm install
 ```
 
 Create a `.env` file inside `/backend`:
+
 ```env
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
@@ -221,6 +230,7 @@ FRONTEND_URL=http://localhost:5173
 GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 GOOGLE_CALLBACK_URL=/api/auth/google/callback
+BACKEND_URL=http://localhost:3000
 
 # ImageKit Credentials
 IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
@@ -230,6 +240,7 @@ IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
 
 > [!NOTE]
 > For local manual running (without Docker), update the `proxy` settings inside `frontend/vite.config.js` to target your local backend server:
+>
 > ```js
 > proxy: {
 >   "/api": {
@@ -243,22 +254,37 @@ IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
 > }
 > ```
 
+For Render deployment, set `BACKEND_URL` to your Render service URL, for example:
+
+```env
+BACKEND_URL=https://your-backend.onrender.com
+GOOGLE_CALLBACK_URL=/api/auth/google/callback
+```
+
+Then register this exact callback URL in Google Cloud Console:
+`https://your-backend.onrender.com/api/auth/google/callback`
+
 Start the backend in development mode:
+
 ```bash
 npm run dev
 ```
+
 The server will start on `http://localhost:3000`.
 
 #### 3. Set Up the Client Frontend
+
 ```bash
 cd ../frontend
 npm install
 ```
 
 Start the Vite development server:
+
 ```bash
 npm run dev
 ```
+
 Open `http://localhost:5173` in your browser.
 
 ---
@@ -268,18 +294,24 @@ Open `http://localhost:5173` in your browser.
 Docker Compose spins up the backend and frontend client simultaneously, referencing internal service DNS names (`http://backend:3000` inside Vite's proxy configs).
 
 #### 1. Configure the `.env` Files
+
 Create the `/backend/.env` file as shown above.
 
 #### 2. Launch Docker Compose
+
 In the root directory of the project, execute:
+
 ```bash
 docker-compose up --build
 ```
+
 This builds the client and server images, handles volume caching for node_modules, and launches the services:
+
 - **Frontend Client**: Exposed on `http://localhost:5173`
 - **Backend Server**: Exposed on `http://localhost:8080` (internally port `3000`)
 
 To stop the containers, run:
+
 ```bash
 docker-compose down
 ```
@@ -287,9 +319,11 @@ docker-compose down
 ---
 
 ### Method 3: Deploying with Production Dockerfile (Single Container)
+
 The root repository contains a production-ready `dockerfile` that uses a multi-stage process to compile the React frontend, copy the build assets into the Express server's public directory, and start the node server.
 
 To run the production container:
+
 ```bash
 docker build -t flexit:latest .
 docker run -p 3000:3000 --env-file ./backend/.env flexit:latest
@@ -299,11 +333,11 @@ docker run -p 3000:3000 --env-file ./backend/.env flexit:latest
 
 ## 🌐 Deployment
 
-| Service | Recommended Provider | Configuration |
-|---|---|---|
+| Service                                     | Recommended Provider          | Configuration                                                                                              |
+| ------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | **Frontend & Backend (Monolith Container)** | **Render / fly.io / AWS ECS** | Deploy using the root-level `dockerfile`. Set port mapping to `3000` and supply the backend env variables. |
-| **Database** | **MongoDB Atlas** | Managed MongoDB Cloud Instance. Make sure to whitelist the server's IP address. |
-| **Media Assets CDN** | **ImageKit.io** | Cloud CDN for optimized delivery and storage of images/videos. |
+| **Database**                                | **MongoDB Atlas**             | Managed MongoDB Cloud Instance. Make sure to whitelist the server's IP address.                            |
+| **Media Assets CDN**                        | **ImageKit.io**               | Cloud CDN for optimized delivery and storage of images/videos.                                             |
 
 ---
 
