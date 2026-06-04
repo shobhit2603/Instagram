@@ -19,9 +19,14 @@ const Messages = () => {
   useEffect(() => {
     if (!loggedInUser) return;
 
-    const socket = io("/", {
-      withCredentials: true,
-    });
+    const socket = io(
+      import.meta.env.VITE_SOCKET_URL ||
+        import.meta.env.VITE_API_URL ||
+        "http://localhost:3000",
+      {
+        withCredentials: true,
+      },
+    );
     socketRef.current = socket;
 
     socket.once("connect", () => {

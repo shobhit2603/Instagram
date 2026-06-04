@@ -3,6 +3,13 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { config } from "../config/config.js";
 
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 export async function register(req, res) {
   try {
     const { username, email, fullName, password } = req.body;
@@ -43,12 +50,7 @@ export async function register(req, res) {
     );
 
     // Set Token in Cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, cookieOptions);
 
     // Send Response
     res.status(201).json({
@@ -104,12 +106,7 @@ export async function login(req, res) {
     );
 
     // Set Token in Cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, cookieOptions);
 
     // Send Response
     res.status(200).json({
@@ -129,10 +126,7 @@ export async function login(req, res) {
 
 export async function logout(req, res) {
   res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    ...cookieOptions,
   });
 
   res.status(200).json({
@@ -210,15 +204,10 @@ export async function googleAuth(req, res) {
     );
 
     // Set Token in Cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, cookieOptions);
 
     // Redirect to frontend app directly instead of closing popup
-    res.redirect("/");
+    res.redirect(config.FRONTEND_URL);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
