@@ -2,7 +2,7 @@
 
 # 📸 FlexIt
 
-### _A Sleek, Premium Social Media Platform (Instagram Clone) with Real-Time Messaging & Media Hosting_
+### _A Sleek, Premium Social Media Platform (Inspired by Instagram) with Real-Time Messaging & Media Hosting_
 
 **Modern Feed · Double-Tap Like Animation · Google OAuth & Local JWT Authentication · Socket.io Real-time Chat · ImageKit Cloud CDN Integration · Private Accounts & Follow Requests**
 
